@@ -1,0 +1,1 @@
+alter table locations rename userid to user_id

@@ -1,4 +1,8 @@
-# Default ignored files
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
 /shelf/
 /.idea/workspace.xml
 # Editor-based HTTP Client requests
@@ -6,4 +10,5 @@
 # Datasource local storage ignored files
 /.idea/dataSources/
 /.idea/dataSources.local.xml
-target/
+
+src/main/resources/hibernate.properties

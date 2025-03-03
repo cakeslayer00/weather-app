@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -20,14 +19,10 @@ public class UserDao implements Dao<UserEntity> {
 
     @Override
     public void persist(UserEntity entity) {
-        try {
-            Session session = sessionFactory.openSession();
-            Transaction transaction = session.beginTransaction();
-
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
             session.persist(entity);
-
-            transaction.commit();
-            session.close();
+            session.getTransaction().commit();
         } catch (HibernateException e) {
             throw new POJOPersistenceException(e.getMessage());
         }
@@ -41,6 +36,11 @@ public class UserDao implements Dao<UserEntity> {
     @Override
     public List<UserEntity> findAll() {
         return List.of();
+    }
+
+    @Override
+    public void update(UserEntity entity) {
+
     }
 
     @Override

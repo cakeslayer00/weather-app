@@ -9,12 +9,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.temporal.TemporalAmount;
 import java.util.UUID;
 
 @RestController
@@ -39,7 +40,7 @@ public class AuthController {
         SessionEntity sessionEntity = SessionEntity.builder()
                 .id(UUID.randomUUID())
                 .localTime(LocalDateTime.now().plus(Duration.ofHours(1)))
-                .userId(userEntity).build();
+                .userEntity(userEntity).build();
 
         userDao.persist(userEntity);
         sessionDao.persist(sessionEntity);

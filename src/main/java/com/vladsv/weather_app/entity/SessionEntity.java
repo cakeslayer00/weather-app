@@ -16,13 +16,12 @@ import java.util.UUID;
 @AllArgsConstructor
 public class SessionEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
 
     @Column(name="expires_at", nullable = false)
     private LocalDateTime localTime;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private UserEntity userId;
+    private UserEntity userEntity;
 }

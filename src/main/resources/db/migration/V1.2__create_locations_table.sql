@@ -1,7 +1,7 @@
 create table if not exists locations(
     id bigserial primary key,
-    name varchar(255),
+    name varchar(50),
+    user_id bigint references users(id),
     latitude decimal,
-    longitude decimal,
-    userId bigint references users(id)
+    longitude decimal
 )

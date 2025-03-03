@@ -1,5 +1,5 @@
-create table if not exists Users(
+create table if not exists users(
     id bigserial primary key,
-    login varchar(255) not null,
-    password varchar(255) not null
+    login varchar(50) unique,
+    password varchar(255)
 )

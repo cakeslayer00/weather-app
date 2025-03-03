@@ -1,5 +1,13 @@
 package com.vladsv.weather_app.config;
 
+import com.vladsv.weather_app.dao.SessionDao;
+import com.vladsv.weather_app.entity.LocationEntity;
+import com.vladsv.weather_app.entity.SessionEntity;
+import com.vladsv.weather_app.entity.UserEntity;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -12,7 +20,6 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
-
 
 @EnableWebMvc
 @Configuration
@@ -57,6 +64,25 @@ public class WebConfig implements ApplicationContextAware, WebMvcConfigurer {
         ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
         viewResolver.setTemplateEngine(templateEngine());
         return viewResolver;
+    }
+
+    //TODO: Change implementation
+    @Bean
+    public SessionFactory sessionFactory(){
+        final StandardServiceRegistry registry =
+                new StandardServiceRegistryBuilder()
+                        .build();
+        try {
+            return new MetadataSources(registry)
+                    .addAnnotatedClass(UserEntity.class)
+                    .addAnnotatedClass(LocationEntity.class)
+                    .addAnnotatedClass(SessionEntity.class)
+                    .buildMetadata()
+                    .buildSessionFactory();
+        } catch (Exception e) {
+            StandardServiceRegistryBuilder.destroy(registry);
+        }
+        return null;
     }
 
     @Override

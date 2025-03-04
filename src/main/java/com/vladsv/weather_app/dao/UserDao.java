@@ -7,7 +7,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.HibernateException;
-import org.hibernate.Session;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

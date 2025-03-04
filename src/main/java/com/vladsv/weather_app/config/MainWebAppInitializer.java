@@ -1,4 +1,4 @@
-package com.vladsv.weather_app.listener;
+package com.vladsv.weather_app.config;
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletRegistration;

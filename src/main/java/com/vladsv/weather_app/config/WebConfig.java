@@ -1,9 +1,8 @@
 package com.vladsv.weather_app.config;
 
-import com.vladsv.weather_app.dao.SessionDao;
-import com.vladsv.weather_app.entity.LocationEntity;
-import com.vladsv.weather_app.entity.SessionEntity;
-import com.vladsv.weather_app.entity.UserEntity;
+import com.vladsv.weather_app.entity.Location;
+import com.vladsv.weather_app.entity.Session;
+import com.vladsv.weather_app.entity.User;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
@@ -74,15 +73,15 @@ public class WebConfig implements ApplicationContextAware, WebMvcConfigurer {
                         .build();
         try {
             return new MetadataSources(registry)
-                    .addAnnotatedClass(UserEntity.class)
-                    .addAnnotatedClass(LocationEntity.class)
-                    .addAnnotatedClass(SessionEntity.class)
+                    .addAnnotatedClass(User.class)
+                    .addAnnotatedClass(Location.class)
+                    .addAnnotatedClass(Session.class)
                     .buildMetadata()
                     .buildSessionFactory();
         } catch (Exception e) {
             StandardServiceRegistryBuilder.destroy(registry);
+            throw new RuntimeException(e);
         }
-        return null;
     }
 
     @Override

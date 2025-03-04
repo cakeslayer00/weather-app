@@ -2,21 +2,17 @@ package com.vladsv.weather_app.controller;
 
 import com.vladsv.weather_app.dao.SessionDao;
 import com.vladsv.weather_app.dao.UserDao;
-import com.vladsv.weather_app.entity.SessionEntity;
-import com.vladsv.weather_app.entity.UserEntity;
+import com.vladsv.weather_app.entity.User;
+import com.vladsv.weather_app.exception.UserDoesntExistException;
+import com.vladsv.weather_app.exception.WrongUserCredentialsException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/auth")
@@ -27,26 +23,16 @@ public class AuthController {
     private final SessionDao sessionDao;
 
     @PostMapping
-    public String authorization(@RequestParam(value="login") String login,
-                                @RequestParam(value="password") String password,
-                                HttpServletRequest request,
-                                HttpServletResponse response) {
+    public String auth(@RequestParam(value = "login") String login,
+                       @RequestParam(value = "password") String password,
+                       HttpServletRequest request,
+                       HttpServletResponse response) {
 
-        HttpSession session = request.getSession();
-        String id = session.getId();
-        Cookie cookie = new Cookie("SESSIONID", id);
+        User user = userDao.findByLogin(login).orElseThrow(
+                () -> new UserDoesntExistException("User not found")
+        );
 
-        UserEntity userEntity = UserEntity.builder().login(login).password(password).build();
-        SessionEntity sessionEntity = SessionEntity.builder()
-                .id(UUID.randomUUID())
-                .localTime(LocalDateTime.now().plus(Duration.ofHours(1)))
-                .userEntity(userEntity).build();
-
-        userDao.persist(userEntity);
-        sessionDao.persist(sessionEntity);
-
-        response.addCookie(cookie);
-        response.addHeader("Set-Cookie", "SESSIONID=" + id);
+        Cookie cookie;
         return "success";
     }
 

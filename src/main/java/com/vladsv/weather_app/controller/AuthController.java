@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -26,6 +25,7 @@ import java.util.UUID;
 public class AuthController {
 
     private final UserDao userDao;
+    private final SessionDao sessionDao;
 
     private final AuthService authService;
 
@@ -40,13 +40,31 @@ public class AuthController {
         if (user.getPassword().equals(password)) {
             Session session = authService.obtainSessionByUser(user);
 
-            response.addCookie(new Cookie("SESSIONID", session.getId().toString()));
+            response.addCookie(authService.generateCookie(session.getId().toString()));
         } else {
             throw new WrongUserCredentialsException("Incorrect password");
         }
+
         return "success";
     }
 
+    @PostMapping(value = "/reg")
+    public String registration(@RequestParam(value = "login") String login,
+                               @RequestParam(value = "password") String password,
+                               HttpServletResponse response) {
 
+        User user = User.builder().login(login).password(password).build();
+        Session session = new Session(
+                UUID.randomUUID(),
+                LocalDateTime.now().plus(Duration.ofHours(1)),
+                user
+        );
+
+        userDao.persist(user);
+        sessionDao.persist(session);
+
+        response.addCookie(authService.generateCookie(session.getId().toString()));
+        return "success";
+    }
 
 }

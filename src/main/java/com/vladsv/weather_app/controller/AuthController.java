@@ -6,8 +6,8 @@ import com.vladsv.weather_app.entity.Session;
 import com.vladsv.weather_app.entity.User;
 import com.vladsv.weather_app.exception.UserDoesntExistException;
 import com.vladsv.weather_app.exception.WrongUserCredentialsException;
+import com.vladsv.weather_app.service.AuthService;
 import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +26,8 @@ import java.util.UUID;
 public class AuthController {
 
     private final UserDao userDao;
-    private final SessionDao sessionDao;
+
+    private final AuthService authService;
 
     @PostMapping
     public String auth(@RequestParam(value = "login") String login,
@@ -36,26 +37,16 @@ public class AuthController {
         User user = userDao.findByLogin(login)
                 .orElseThrow(() -> new UserDoesntExistException("User not found"));
 
-        //TODO: finish session managing
-        Cookie cookie = new Cookie("SESSIONID", "");
         if (user.getPassword().equals(password)) {
-            Optional<Session> session = sessionDao.findByUser(user)
-                    .or(() -> {
-                        Session res = new Session(
-                                UUID.randomUUID(),
-                                LocalDateTime.now().plus(Duration.ofHours(1)),
-                                user);
-                        sessionDao.persist(res);
-                        return Optional.of(res);
-                    }
-            );
-            cookie.setValue(session.orElseThrow().getId().toString());
+            Session session = authService.obtainSessionByUser(user);
+
+            response.addCookie(new Cookie("SESSIONID", session.getId().toString()));
         } else {
             throw new WrongUserCredentialsException("Incorrect password");
         }
-
-        response.addCookie(cookie);
         return "success";
     }
+
+
 
 }

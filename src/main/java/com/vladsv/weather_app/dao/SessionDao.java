@@ -2,6 +2,7 @@ package com.vladsv.weather_app.dao;
 
 import com.vladsv.weather_app.entity.Session;
 import com.vladsv.weather_app.entity.User;
+import com.vladsv.weather_app.exception.POJODeletionException;
 import com.vladsv.weather_app.exception.POJOObtainingException;
 import com.vladsv.weather_app.exception.POJOPersistenceException;
 import jakarta.persistence.EntityManager;
@@ -58,13 +59,19 @@ public class SessionDao implements Dao<UUID, Session> {
     }
 
     @Override
-    public void update(Session entity) {
+    public void update(Session session) {
 
     }
 
     @Override
-    public void delete(Session entity) {
-
+    public void delete(Session session) {
+        try (EntityManager em = emf.createEntityManager();) {
+            em.getTransaction().begin();
+            em.remove(session);
+            em.getTransaction().commit();
+        } catch (HibernateException e) {
+            throw new POJODeletionException(e.getMessage());
+        }
     }
 
 }

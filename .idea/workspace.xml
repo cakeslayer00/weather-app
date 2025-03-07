@@ -10,16 +10,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d64fa91c-052c-4778-af4d-a132a58cf6c3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/config/WebAppInitializer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/controller/LocationController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/interceptors/AuthInterceptors.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/exception/SessionDoesNotExistException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/exception/UnauthorizedUserException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/config/MainWebAppInitializer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/config/WebConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/config/WebConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/controller/LocationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/controller/LocationController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/dao/SessionDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/dao/SessionDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/service/AuthService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/exception/UserDoesntExistException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/exception/UserDoesNotExistException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/interceptors/AuthInterceptors.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/interceptors/AuthInterceptors.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -270,7 +269,7 @@
       <workItem from="1741177393454" duration="1621000" />
       <workItem from="1741235463620" duration="2430000" />
       <workItem from="1741241863286" duration="4375000" />
-      <workItem from="1741348039105" duration="3565000" />
+      <workItem from="1741348039105" duration="6713000" />
     </task>
     <servers />
   </component>
@@ -307,9 +306,9 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/controller/AuthController.java</url>
-          <line>39</line>
-          <option name="timeStamp" value="1" />
+          <url>file://$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/interceptors/AuthInterceptors.java</url>
+          <line>26</line>
+          <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

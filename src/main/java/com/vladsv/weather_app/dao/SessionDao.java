@@ -20,6 +20,7 @@ import java.util.UUID;
 public class SessionDao implements Dao<UUID, Session> {
 
     private static final String SELECT_SESSION_BY_USER_QUERY = "select s from Session s where s.user = :user";
+    private static final String SELECT_SESSION_BY_ID = "select s from Session s where s.id = :id";
 
     private final EntityManagerFactory emf;
 
@@ -36,7 +37,18 @@ public class SessionDao implements Dao<UUID, Session> {
 
     @Override
     public Optional<Session> findById(UUID id) {
-        return Optional.empty();
+        try (EntityManager em = emf.createEntityManager()) {
+            em.getTransaction().begin();
+
+            Optional<Session> session = em.createQuery(SELECT_SESSION_BY_ID, Session.class)
+                    .setParameter("id", id)
+                    .getResultList().stream().findAny();
+
+            em.getTransaction().commit();
+            return session;
+        } catch (HibernateException e) {
+            throw new POJOObtainingException(e.getMessage());
+        }
     }
 
     public Optional<Session> findByUser(User user) {

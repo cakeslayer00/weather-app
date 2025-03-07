@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class LocationController {
 
-    @GetMapping("/{location}")
-    public Location getWeatherByLocationName(@RequestParam(value = "location") String locationName) {
+    @GetMapping
+    public Location getWeatherByLocationName(@RequestParam(value = "city") String city) {
+        System.out.println(city);
+
         return null;
     }
 

@@ -1,8 +1,10 @@
 package com.vladsv.weather_app.config;
 
+import com.vladsv.weather_app.dao.SessionDao;
 import com.vladsv.weather_app.entity.Location;
 import com.vladsv.weather_app.entity.Session;
 import com.vladsv.weather_app.entity.User;
+import com.vladsv.weather_app.interceptors.AuthInterceptors;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
@@ -14,6 +16,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
@@ -82,6 +85,12 @@ public class WebConfig implements ApplicationContextAware, WebMvcConfigurer {
             StandardServiceRegistryBuilder.destroy(registry);
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new AuthInterceptors(applicationContext.getBean(SessionDao.class)))
+                .excludePathPatterns("/auth/**");
     }
 
     @Override

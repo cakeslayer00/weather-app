@@ -4,7 +4,7 @@ import com.vladsv.weather_app.dao.SessionDao;
 import com.vladsv.weather_app.dao.UserDao;
 import com.vladsv.weather_app.entity.Session;
 import com.vladsv.weather_app.entity.User;
-import com.vladsv.weather_app.exception.UserDoesntExistException;
+import com.vladsv.weather_app.exception.UserDoesNotExistException;
 import com.vladsv.weather_app.exception.WrongUserCredentialsException;
 import com.vladsv.weather_app.service.AuthService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -34,7 +34,7 @@ public class AuthController {
                        HttpServletResponse response) {
 
         User user = userDao.findByLogin(login)
-                .orElseThrow(() -> new UserDoesntExistException("User not found"));
+                .orElseThrow(() -> new UserDoesNotExistException("User not found"));
 
         if (user.getPassword().equals(password)) {
             Session session = authService.obtainSessionByUser(user);

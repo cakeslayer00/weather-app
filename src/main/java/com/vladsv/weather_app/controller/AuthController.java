@@ -7,7 +7,6 @@ import com.vladsv.weather_app.entity.User;
 import com.vladsv.weather_app.exception.UserDoesntExistException;
 import com.vladsv.weather_app.exception.WrongUserCredentialsException;
 import com.vladsv.weather_app.service.AuthService;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;

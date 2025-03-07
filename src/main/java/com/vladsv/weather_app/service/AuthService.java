@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -22,7 +21,7 @@ public class AuthService {
 
     public Session obtainSessionByUser(User user) {
         return sessionDao.findByUser(user)
-                .map(value -> obtainIfExpired(user, value))
+                .map(this::obtainIfExpired)
                 .orElseGet(() -> new Session(
                         UUID.randomUUID(),
                         LocalDateTime.now().plus(Duration.ofHours(1)),
@@ -31,17 +30,15 @@ public class AuthService {
     }
 
     public Cookie generateCookie(String sessionId) {
-        return new Cookie("SESSIONID", sessionId);
+        Cookie cookie = new Cookie("SESSIONID", sessionId);
+        cookie.setMaxAge(COOKIE_EXPIRY_TIME_IN_SECONDS);
+        return cookie;
     }
 
-    private Session obtainIfExpired(User user, Session session) {
+    private Session obtainIfExpired(Session session) {
         if (session.getLocalDateTime().isBefore(LocalDateTime.now())) {
-            sessionDao.delete(session);
-            session = new Session(
-                    UUID.randomUUID(),
-                    LocalDateTime.now().plus(Duration.ofHours(1)),
-                    user
-            );
+            session.setLocalDateTime(LocalDateTime.now().plus(Duration.ofHours(1)));
+            sessionDao.update(session);
         }
         return session;
     }

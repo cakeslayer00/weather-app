@@ -19,6 +19,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class SessionDao implements Dao<UUID, Session> {
 
+    private static final String SELECT_SESSION_BY_USER_QUERY = "select s from Session s where s.user = :user";
+
     private final EntityManagerFactory emf;
 
     @Override
@@ -41,8 +43,7 @@ public class SessionDao implements Dao<UUID, Session> {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
 
-            String query = "select s from Session s where s.user = :user";
-            Optional<Session> session = em.createQuery(query, Session.class)
+            Optional<Session> session = em.createQuery(SELECT_SESSION_BY_USER_QUERY, Session.class)
                     .setParameter("user", user)
                     .getResultList().stream().findAny();
 
@@ -60,12 +61,18 @@ public class SessionDao implements Dao<UUID, Session> {
 
     @Override
     public void update(Session session) {
-
+        try (EntityManager em = emf.createEntityManager()) {
+            em.getTransaction().begin();
+            em.merge(session);
+            em.getTransaction().commit();
+        } catch (HibernateException e) {
+            throw new POJODeletionException(e.getMessage());
+        }
     }
 
     @Override
     public void delete(Session session) {
-        try (EntityManager em = emf.createEntityManager();) {
+        try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
             em.remove(session);
             em.getTransaction().commit();

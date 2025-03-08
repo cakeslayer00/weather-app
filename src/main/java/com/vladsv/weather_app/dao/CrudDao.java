@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
-public interface Dao<I extends Serializable, T> {
+public interface CrudDao<I extends Serializable, T> {
 
     void persist(T entity);
 

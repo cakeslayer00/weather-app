@@ -1,6 +1,7 @@
 package com.vladsv.weather_app.interceptors;
 
 import com.vladsv.weather_app.dao.SessionDao;
+import com.vladsv.weather_app.entity.Session;
 import com.vladsv.weather_app.exception.SessionDoesNotExistException;
 import com.vladsv.weather_app.exception.UnauthorizedUserException;
 import jakarta.servlet.http.Cookie;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.UUID;
@@ -34,8 +36,11 @@ public class AuthInterceptors implements HandlerInterceptor {
                 .ifPresent(
                         cookie -> {
                             UUID id = UUID.fromString(cookie.getValue());
-                            sessionDao.findById(id)
+                            Session session = sessionDao.findById(id)
                                     .orElseThrow(() -> new SessionDoesNotExistException("There's no session with provided SESSIONID"));
+                            if (session.getLocalDateTime().isBefore(LocalDateTime.now())) {
+                                throw new SessionDoesNotExistException("Session already expired!");
+                            }
                         }
                 );
 

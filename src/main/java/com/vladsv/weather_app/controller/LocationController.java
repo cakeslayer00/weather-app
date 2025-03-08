@@ -13,10 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class LocationController {
 
     @GetMapping
-    public Location getWeatherByLocationName(@RequestParam(value = "city") String city) {
-        System.out.println(city);
-
-        return null;
+    public String getWeatherByLocationName(@RequestParam(value = "city") String city) {
+        return city;
     }
 
 }

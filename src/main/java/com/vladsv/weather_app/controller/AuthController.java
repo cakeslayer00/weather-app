@@ -29,7 +29,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping
-    public String auth(@RequestParam(value = "login") String login,
+    public String auth(@RequestParam(value = "username") String login,
                        @RequestParam(value = "password") String password,
                        HttpServletResponse response) {
 
@@ -39,6 +39,7 @@ public class AuthController {
         if (user.getPassword().equals(password)) {
             Session session = authService.obtainSessionByUser(user);
 
+            response.addCookie(authService.getResetCookie(session.getId().toString()));
             response.addCookie(authService.generateCookie(session.getId().toString()));
         } else {
             throw new WrongUserCredentialsException("Incorrect password");
@@ -48,7 +49,7 @@ public class AuthController {
     }
 
     @PostMapping(value = "/reg")
-    public String registration(@RequestParam(value = "login") String login,
+    public String registration(@RequestParam(value = "username") String login,
                                @RequestParam(value = "password") String password,
                                HttpServletResponse response) {
 
@@ -62,6 +63,7 @@ public class AuthController {
         userDao.persist(user);
         sessionDao.persist(session);
 
+        response.addCookie(authService.getResetCookie(session.getId().toString()));
         response.addCookie(authService.generateCookie(session.getId().toString()));
         return "success";
     }

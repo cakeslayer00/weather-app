@@ -1,4 +1,3 @@
-
 package com.vladsv.weather_app.dao;
 
 import com.vladsv.weather_app.exception.POJODeletionException;

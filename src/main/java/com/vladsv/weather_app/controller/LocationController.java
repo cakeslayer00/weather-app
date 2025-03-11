@@ -5,13 +5,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.reactive.ClientHttpConnector;
-import org.springframework.http.client.reactive.JdkClientHttpConnector;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-
-import java.net.http.HttpClient;
-import java.time.Duration;
 
 @RestController
 @RequestMapping(value = "/locations")
@@ -21,6 +17,8 @@ public class LocationController {
 
     private static final String WEATHER_DATA_URL = "https://api.openweathermap.org/data/2.5";
     private static final String WEATHER_GEO_URL = "https://api.openweathermap.org/geo/1.0";
+
+    private final ClientHttpConnector connector;
 
     @Value("${bean.appid}")
     private String api;
@@ -41,7 +39,7 @@ public class LocationController {
     }
 
     @GetMapping("/{city}")
-    public String getWeatherByCityName(@PathVariable String city) {
+    public String getWeatherByCityName(@PathVariable(value = "city") String city) {
         WebClient webClient = getConfiguredWebClientBasedOnWeatherData();
 
         return webClient.get()
@@ -63,21 +61,9 @@ public class LocationController {
         return getConfiguredWebClient(WEATHER_DATA_URL);
     }
 
-    private static WebClient getConfiguredWebClient(String url) {
-        ClientHttpConnector connector = getClientHttpConnector();
-
+    private WebClient getConfiguredWebClient(String url) {
         return WebClient.builder()
                 .baseUrl(url)
                 .clientConnector(connector).build();
     }
-
-    private static ClientHttpConnector getClientHttpConnector() {
-        HttpClient httpClient = HttpClient.newBuilder()
-                .followRedirects(HttpClient.Redirect.NORMAL)
-                .connectTimeout(Duration.ofSeconds(20))
-                .build();
-
-        return new JdkClientHttpConnector(httpClient);
-    }
-
 }

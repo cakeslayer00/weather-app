@@ -16,6 +16,7 @@ import java.util.UUID;
 public class AuthService {
 
     private static final short COOKIE_EXPIRY_TIME_IN_SECONDS = 3600;
+    private static final int COOKIE_RESET_TIME_IN_SECONDS = 0;
 
     private final SessionDao sessionDao;
 
@@ -27,6 +28,12 @@ public class AuthService {
                         LocalDateTime.now().plus(Duration.ofHours(1)),
                         user
                 ));
+    }
+
+    public Cookie generateResetCookie(String sessionId) {
+        Cookie cookie = new Cookie("SESSIONID", sessionId);
+        cookie.setMaxAge(COOKIE_RESET_TIME_IN_SECONDS);
+        return cookie;
     }
 
     public Cookie generateCookie(String sessionId) {

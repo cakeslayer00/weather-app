@@ -4,7 +4,7 @@ import com.vladsv.weather_app.dao.SessionDao;
 import com.vladsv.weather_app.entity.Location;
 import com.vladsv.weather_app.entity.Session;
 import com.vladsv.weather_app.entity.User;
-import com.vladsv.weather_app.interceptors.AuthInterceptors;
+import com.vladsv.weather_app.interceptor.AuthInterceptor;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
@@ -15,6 +15,8 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.client.reactive.ClientHttpConnector;
+import org.springframework.http.client.reactive.JdkClientHttpConnector;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -22,6 +24,9 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
+
+import java.net.http.HttpClient;
+import java.time.Duration;
 
 @EnableWebMvc
 @Configuration
@@ -87,9 +92,19 @@ public class WebConfig implements ApplicationContextAware, WebMvcConfigurer {
         }
     }
 
+    @Bean
+    public ClientHttpConnector getClientHttpConnector() {
+        HttpClient httpClient = HttpClient.newBuilder()
+                .followRedirects(HttpClient.Redirect.NORMAL)
+                .connectTimeout(Duration.ofSeconds(20))
+                .build();
+
+        return new JdkClientHttpConnector(httpClient);
+    }
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new AuthInterceptors(applicationContext.getBean(SessionDao.class)))
+        registry.addInterceptor(new AuthInterceptor(applicationContext.getBean(SessionDao.class)))
                 .excludePathPatterns("/auth/**");
     }
 

@@ -11,3 +11,5 @@ flyway.conf
 /dataSources.local.xml
 /.idea/dataSources/
 /.idea/dataSources.local.xml
+
+application.properties

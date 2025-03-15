@@ -15,19 +15,24 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
-        <org.spring.framework.version>6.2.3</org.spring.framework.version>
+        <org.springframework.version>6.2.3</org.springframework.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>${org.spring.framework.version}</version>
+            <version>${org.springframework.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webflux</artifactId>
-            <version>${org.spring.framework.version}</version>
+            <version>${org.springframework.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${org.springframework.version}</version>
         </dependency>
         <dependency>
             <groupId>org.thymeleaf</groupId>

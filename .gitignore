@@ -1,6 +1,5 @@
 target/
 flyway.conf
-/src/main/resources/hibernate.properties
 
 /shelf/
 /workspace.xml

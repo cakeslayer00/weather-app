@@ -7,6 +7,7 @@ import com.vladsv.weather_app.exception.POJOPersistenceException;
 import com.vladsv.weather_app.exception.POJOUpdatingException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.PersistenceException;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.HibernateException;
 import org.springframework.stereotype.Component;
@@ -28,7 +29,7 @@ public abstract class BaseDao<I extends Serializable, T> implements CrudDao<I, T
             em.getTransaction().begin();
             em.persist(entity);
             em.getTransaction().commit();
-        } catch (HibernateException e) {
+        } catch (PersistenceException e) {
             throw new POJOPersistenceException(e.getMessage());
         }
     }
@@ -40,7 +41,7 @@ public abstract class BaseDao<I extends Serializable, T> implements CrudDao<I, T
             Optional<T> entity = Optional.ofNullable(em.find(entityClass, id));
             em.getTransaction().commit();
             return entity;
-        } catch (HibernateException e) {
+        } catch (PersistenceException e) {
             throw new POJOObtainingException(e.getMessage());
         }
     }
@@ -55,7 +56,7 @@ public abstract class BaseDao<I extends Serializable, T> implements CrudDao<I, T
                     .getResultList();
             em.getTransaction().commit();
             return res;
-        } catch (HibernateException e) {
+        } catch (PersistenceException e) {
             throw new POJOObtainingException(e.getMessage());
         }
     }
@@ -66,7 +67,7 @@ public abstract class BaseDao<I extends Serializable, T> implements CrudDao<I, T
             em.getTransaction().begin();
             em.merge(entity);
             em.getTransaction().commit();
-        } catch (HibernateException e) {
+        } catch (PersistenceException e) {
             throw new POJOUpdatingException(e.getMessage());
         }
     }
@@ -77,7 +78,7 @@ public abstract class BaseDao<I extends Serializable, T> implements CrudDao<I, T
             em.getTransaction().begin();
             em.remove(entity);
             em.getTransaction().commit();
-        } catch (HibernateException e) {
+        } catch (PersistenceException e) {
             throw new POJODeletionException(e.getMessage());
         }
     }

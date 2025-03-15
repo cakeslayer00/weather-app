@@ -5,7 +5,7 @@ import com.vladsv.weather_app.entity.User;
 import com.vladsv.weather_app.exception.POJOObtainingException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import org.hibernate.HibernateException;
+import jakarta.persistence.PersistenceException;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -30,7 +30,7 @@ public class SessionDao extends BaseDao<UUID, Session> {
 
             em.getTransaction().commit();
             return session;
-        } catch (HibernateException e) {
+        } catch (PersistenceException e) {
             throw new POJOObtainingException(e.getMessage());
         }
     }

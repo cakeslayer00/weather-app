@@ -33,8 +33,9 @@ public class LocationController {
                                 .queryParam("q", city)
                                 .queryParam("appid", api).build()
                 )
-                .accept(MediaType.APPLICATION_JSON).retrieve().bodyToMono(String.class)
-                .onErrorResume(e -> Mono.empty())
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(String.class)
                 .block();
     }
 
@@ -48,8 +49,9 @@ public class LocationController {
                                 .queryParam("q", city)
                                 .queryParam("appid", api).build()
                 )
-                .accept(MediaType.APPLICATION_JSON).retrieve().bodyToMono(String.class)
-                .onErrorResume(e -> Mono.empty())
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(String.class)
                 .block();
     }
 

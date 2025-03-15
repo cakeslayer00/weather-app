@@ -43,13 +43,13 @@ public class HibernateConfig {
     @Bean
     public DataSource dataSource() {
         HikariConfig config = new HikariConfig();
-        config.setDriverClassName(environment.getProperty("db.driver"));
-        config.setJdbcUrl(environment.getProperty("db.url"));
-        config.setUsername(environment.getProperty("db.user"));
-        config.setPassword(environment.getProperty("db.password"));
-        config.setIdleTimeout(Integer.parseInt(Objects.requireNonNull(environment.getProperty("db.idleTimeout"))));
-        config.setMaximumPoolSize(Integer.parseInt(Objects.requireNonNull(environment.getProperty("db.maximumPoolSize"))));
-        config.setMinimumIdle(Integer.parseInt(Objects.requireNonNull(environment.getProperty("db.minimumIdle"))));
+        config.setDriverClassName(environment.getProperty("spring.datasource.driver"));
+        config.setJdbcUrl(environment.getProperty("spring.datasource.url"));
+        config.setUsername(environment.getProperty("spring.datasource.user"));
+        config.setPassword(environment.getProperty("spring.datasource.password"));
+        config.setIdleTimeout(Integer.parseInt(Objects.requireNonNull(environment.getProperty("spring.datasource.idleTimeout"))));
+        config.setMaximumPoolSize(Integer.parseInt(Objects.requireNonNull(environment.getProperty("spring.datasource.maximumPoolSize"))));
+        config.setMinimumIdle(Integer.parseInt(Objects.requireNonNull(environment.getProperty("spring.datasource.minimumIdle"))));
 
         return new HikariDataSource(config);
     }

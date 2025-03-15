@@ -22,7 +22,7 @@ public class Location {
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User userId;
+    private User user;
 
     private BigDecimal latitude;
     private BigDecimal longitude;

@@ -2,6 +2,7 @@ package com.vladsv.weather_app.client;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.reactive.ClientHttpConnector;
 import org.springframework.stereotype.Component;
@@ -9,6 +10,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @Component
 @RequiredArgsConstructor
+@PropertySource("classpath:application.properties")
 public class WeatherClient {
 
     private static final String WEATHER_DATA_URL = "https://api.openweathermap.org/data/2.5";

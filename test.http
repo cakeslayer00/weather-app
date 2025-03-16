@@ -1,0 +1,13 @@
+GET https://api.openweathermap.org/data/2.5/weather?q=Karabulak,kz&appid=1054e65a7d2807c6981928d5c3bb605b&units=metric&lang=ru
+
+###
+
+GET https://api.openweathermap.org/data/2.5/weather?lat=49.411053&lon=75.476417&appid=1054e65a7d2807c6981928d5c3bb605b&units=metric&lang=ru
+
+###
+
+GET https://api.openweathermap.org/data/2.5/weather?q=Kaskelen&appid=1054e65a7d2807c6981928d5c3bb605b
+
+###
+
+GET https://api.openweathermap.org/geo/1.0/direct?q=Каскелен&limit=10&appid=1054e65a7d2807c6981928d5c3bb605b&lang=ru

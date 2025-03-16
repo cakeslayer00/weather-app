@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeController {
 
     @GetMapping
-    public String authRedirect() {
-        return "redirect:/auth";
+    public String index() {
+        return "index";
     }
-
 }

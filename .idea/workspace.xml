@@ -10,17 +10,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d64fa91c-052c-4778-af4d-a132a58cf6c3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/webContexts.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/controller/HomeController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/css/styles.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/images/weather-app.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/sign-in.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/handler/GlobalControllerExceptionHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/templates/error.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/templates/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/templates/search-results.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/templates/sign-in-with-errors.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/templates/sign-up-with-errors.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/templates/sign-up.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/client/WeatherClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/client/WeatherClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/config/WebConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/config/WebConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/controller/LocationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/controller/LocationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/controller/HomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/controller/IndexController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/interceptor/AuthInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/interceptor/AuthInterceptor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/templates/sign-in.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/templates/sign-in.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/static/css/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/static/css/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,15 +125,16 @@
       <recent name="com.vladsv.weather_app.exception" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\trash\weather-app" />
       <recent name="D:\IdeaProjects\weather-app\src\main\resources" />
       <recent name="D:\IdeaProjects\weather-app\src\main\webapp\WEB-INF" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\IdeaProjects\weather-app\src\main\resources" />
-      <recent name="D:\IdeaProjects\weather-app\src\main\webapp\WEB-INF\static\images" />
-      <recent name="D:\IdeaProjects\weather-app\src\main\webapp" />
-      <recent name="D:\IdeaProjects\weather-app\src\main\webapp\WEB-INF" />
-      <recent name="D:\IdeaProjects\weather-app\src\main\webapp\WEB-INF\templates" />
+      <recent name="D:\trash\weather-app\src\main\webapp\static\css" />
+      <recent name="D:\trash\weather-app\src\main\webapp\static" />
+      <recent name="D:\trash\weather-app\src\main\webapp" />
+      <recent name="D:\trash\weather-app\src\main\webapp\WEB-INF" />
+      <recent name="D:\trash\weather-app\src\main\webapp\WEB-INF\templates" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.vladsv.weather_app.dao" />
@@ -137,6 +142,7 @@
   </component>
   <component name="RunManager">
     <configuration name="Tomcat 11.0.5" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 11.0.5" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
+      <option name="OPEN_IN_BROWSER" value="false" />
       <option name="UPDATING_POLICY" value="restart-server" />
       <deployment>
         <artifact name="weather-app:war exploded">
@@ -276,6 +282,11 @@
       <workItem from="1742112182194" duration="1072000" />
       <workItem from="1742113277240" duration="37000" />
       <workItem from="1742113325942" duration="5000" />
+      <workItem from="1742113640438" duration="7000" />
+      <workItem from="1742113654830" duration="2841000" />
+      <workItem from="1742122429519" duration="6617000" />
+      <workItem from="1742129543865" duration="168000" />
+      <workItem from="1742129861739" duration="499000" />
     </task>
     <servers />
   </component>

@@ -30,7 +30,7 @@ public class AuthController {
 
     @GetMapping
     public String auth() {
-        return "sign-in.html";
+        return "sign-in";
     }
 
     @PostMapping
@@ -50,7 +50,7 @@ public class AuthController {
             throw new WrongUserCredentialsException("Incorrect password");
         }
 
-        return "success";
+        return "redirect:/";
     }
 
     @PostMapping(value = "/reg")
@@ -70,7 +70,7 @@ public class AuthController {
 
         response.addCookie(authService.generateResetCookie(session.getId().toString()));
         response.addCookie(authService.generateCookie(session.getId().toString()));
-        return "success";
+        return "redirect:/";
     }
 
 }

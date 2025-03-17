@@ -4,15 +4,14 @@ import com.vladsv.weather_app.dao.SessionDao;
 import com.vladsv.weather_app.dao.UserDao;
 import com.vladsv.weather_app.entity.Session;
 import com.vladsv.weather_app.entity.User;
+import com.vladsv.weather_app.exception.UserDoesNotExistException;
 import com.vladsv.weather_app.exception.WrongUserCredentialsException;
 import com.vladsv.weather_app.service.AuthService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -33,13 +32,18 @@ public class AuthController {
         return "sign-in";
     }
 
+    @GetMapping("/reg")
+    public String reg() {
+        return "sign-up";
+    }
+
     @PostMapping
     public String auth(@RequestParam(value = "username") String login,
                        @RequestParam(value = "password") String password,
                        HttpServletResponse response) {
 
         User user = userDao.findByLogin(login)
-                .orElseThrow(() -> new WrongUserCredentialsException("Wrong username or password"));
+                .orElseThrow(() -> new UserDoesNotExistException("Wrong username"));
 
         if (user.getPassword().equals(password)) {
             Session session = authService.obtainSessionByUser(user);
@@ -47,7 +51,7 @@ public class AuthController {
             response.addCookie(authService.generateResetCookie(session.getId().toString()));
             response.addCookie(authService.generateCookie(session.getId().toString()));
         } else {
-            throw new WrongUserCredentialsException("Incorrect password");
+            throw new WrongUserCredentialsException("Incorrect username or password");
         }
 
         return "redirect:/";
@@ -56,7 +60,12 @@ public class AuthController {
     @PostMapping(value = "/reg")
     public String registration(@RequestParam(value = "username") String login,
                                @RequestParam(value = "password") String password,
+                               @RequestParam(value = "repeat-password") String repeatPassword,
                                HttpServletResponse response) {
+
+        if (password.equals(repeatPassword)) {
+            throw new WrongUserCredentialsException("Passwords do not match");
+        }
 
         User user = User.builder().login(login).password(password).build();
         Session session = new Session(
@@ -73,4 +82,10 @@ public class AuthController {
         return "redirect:/";
     }
 
+    @ExceptionHandler
+    public ModelAndView handleException(WrongUserCredentialsException e) {
+        ModelAndView modelAndView = new ModelAndView("sign-in");
+        modelAndView.addObject("error", e.getMessage());
+        return modelAndView;
+    }
 }

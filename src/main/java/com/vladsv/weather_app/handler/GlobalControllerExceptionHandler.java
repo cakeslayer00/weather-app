@@ -7,9 +7,4 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalControllerExceptionHandler {
 
-    @ExceptionHandler(UnauthorizedUserException.class)
-    public String handle(UnauthorizedUserException e) {
-        return "redirect:/auth";
-    }
-
 }

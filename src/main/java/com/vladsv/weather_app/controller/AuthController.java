@@ -4,8 +4,8 @@ import com.vladsv.weather_app.dao.SessionDao;
 import com.vladsv.weather_app.dao.UserDao;
 import com.vladsv.weather_app.entity.Session;
 import com.vladsv.weather_app.entity.User;
-import com.vladsv.weather_app.exception.UserDoesNotExistException;
-import com.vladsv.weather_app.exception.WrongUserCredentialsException;
+import com.vladsv.weather_app.exception.InvalidCredentialsException;
+import com.vladsv.weather_app.exception.POJOPersistenceException;
 import com.vladsv.weather_app.service.AuthService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +43,7 @@ public class AuthController {
                        HttpServletResponse response) {
 
         User user = userDao.findByLogin(login)
-                .orElseThrow(() -> new UserDoesNotExistException("Wrong username"));
+                .orElseThrow(() -> new InvalidCredentialsException("Invalid username"));
 
         if (user.getPassword().equals(password)) {
             Session session = authService.obtainSessionByUser(user);
@@ -51,7 +51,7 @@ public class AuthController {
             response.addCookie(authService.generateResetCookie(session.getId().toString()));
             response.addCookie(authService.generateCookie(session.getId().toString()));
         } else {
-            throw new WrongUserCredentialsException("Incorrect username or password");
+            throw new InvalidCredentialsException("Invalid username or password");
         }
 
         return "redirect:/";
@@ -63,8 +63,8 @@ public class AuthController {
                                @RequestParam(value = "repeat-password") String repeatPassword,
                                HttpServletResponse response) {
 
-        if (password.equals(repeatPassword)) {
-            throw new WrongUserCredentialsException("Passwords do not match");
+        if (!password.equals(repeatPassword)) {
+            throw new InvalidCredentialsException("Passwords do not match");
         }
 
         User user = User.builder().login(login).password(password).build();
@@ -83,9 +83,29 @@ public class AuthController {
     }
 
     @ExceptionHandler
-    public ModelAndView handleException(WrongUserCredentialsException e) {
-        ModelAndView modelAndView = new ModelAndView("sign-in");
-        modelAndView.addObject("error", e.getMessage());
-        return modelAndView;
+    public ModelAndView handleException(InvalidCredentialsException e) {
+        ModelAndView mav = new ModelAndView("sign-in");
+
+        if (e.getMessage().equals("Invalid username")) {
+            return mav.addObject("usernameError", e.getMessage());
+        }
+
+        if (e.getMessage().equals("Passwords do not match")) {
+            mav.setViewName("sign-up");
+            return mav.addObject("error", e.getMessage());
+        }
+
+        return mav.addObject("error", e.getMessage());
+    }
+
+    @ExceptionHandler
+    public ModelAndView handleException(POJOPersistenceException ignoredE) {
+        ModelAndView mav = new ModelAndView("sign-up");
+
+        if (ignoredE.getMessage().contains("already exists")) {
+            mav.addObject("usernameError", "Account with this email already exists.");
+        }
+
+        return mav.addObject("error", "How dare you exceed password max length?");
     }
 }

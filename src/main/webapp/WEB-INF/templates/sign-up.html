@@ -18,11 +18,28 @@
     <h2 class="text-center mb-5">Sign Up</h2>
 
     <div class="row justify-content-center">
+        <div th:if="${error != null && usernameError == null}" class="col-12 col-lg-4 col-md-6 col-sm-12">
+            <div class="alert alert-danger" role="alert">
+                <label th:text="${error}"></label>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
         <div class="col-12 col-lg-4 col-md-6 col-sm-12">
             <form th:action="@{/auth/reg}" th:method="post" class="mt-4">
-                <div class="mb-3">
-                    <label for="username" class="form-label">Username</label>
-                    <input type="text" class="form-control" id="username" name="username" required value=""/>
+                <div th:switch="${usernameError}" class="mb-3">
+                    <div th:case="null">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" required value=""/>
+                    </div>
+                    <div th:case="*" class="has-validation">
+                        <label for="username-error" class="form-label">Username</label>
+                        <input type="text" class="form-control is-invalid" id="username-error" name="username" required value=""/>
+                        <div class="invalid-feedback">
+                            <label th:text="${usernameError}"></label>
+                        </div>
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
@@ -30,7 +47,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="repeat-password" class="form-label">Repeat password</label>
-                    <input type="password" class="form-control" id="repeat-password" name="password" required value=""/>
+                    <input type="password" class="form-control" id="repeat-password" name="repeat-password" required value=""/>
                 </div>
 
                 <button type="submit" class="btn btn-primary w-100 mt-3">Sign Up</button>

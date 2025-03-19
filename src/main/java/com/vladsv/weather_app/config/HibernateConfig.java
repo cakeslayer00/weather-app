@@ -5,6 +5,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -26,13 +27,16 @@ public class HibernateConfig {
     public PlatformTransactionManager hibernateTransactionManager() {
         HibernateTransactionManager transactionManager
                 = new HibernateTransactionManager();
+
         transactionManager.setSessionFactory(sessionFactory().getObject());
+
         return transactionManager;
     }
 
     @Bean
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+
         sessionFactory.setPackagesToScan("com.vladsv.weather_app.entity");
         sessionFactory.setDataSource(dataSource());
         sessionFactory.setHibernateProperties(hibernateProperties());
@@ -41,22 +45,44 @@ public class HibernateConfig {
     }
 
     @Bean
+    @Profile("dev")
     public DataSource dataSource() {
         HikariConfig config = new HikariConfig();
+
         config.setDriverClassName(environment.getProperty("spring.datasource.driver"));
         config.setJdbcUrl(environment.getProperty("spring.datasource.url"));
         config.setUsername(environment.getProperty("spring.datasource.user"));
         config.setPassword(environment.getProperty("spring.datasource.password"));
-        config.setIdleTimeout(Integer.parseInt(Objects.requireNonNull(environment.getProperty("spring.datasource.idleTimeout"))));
-        config.setMaximumPoolSize(Integer.parseInt(Objects.requireNonNull(environment.getProperty("spring.datasource.maximumPoolSize"))));
-        config.setMinimumIdle(Integer.parseInt(Objects.requireNonNull(environment.getProperty("spring.datasource.minimumIdle"))));
+        setAdditionalConfigurationProperties(config);
 
         return new HikariDataSource(config);
     }
 
+    @Bean
+    @Profile("test")
+    public DataSource dataSourceTest() {
+        HikariConfig config = new HikariConfig();
+
+        config.setDriverClassName("org.h2.Driver");
+        config.setJdbcUrl("jdbc:h2:mem:mydb;DB_CLOSE_DELAY = -1");
+        config.setUsername("sa");
+        config.setPassword("password");
+
+        return new HikariDataSource(config);
+    }
+
+    private void setAdditionalConfigurationProperties(HikariConfig config) {
+        config.setIdleTimeout(Integer.parseInt(
+                Objects.requireNonNull(environment.getProperty("spring.datasource.idleTimeout"))));
+        config.setMaximumPoolSize(Integer.parseInt(
+                Objects.requireNonNull(environment.getProperty("spring.datasource.maximumPoolSize"))));
+        config.setMinimumIdle(Integer.parseInt(
+                Objects.requireNonNull(environment.getProperty("spring.datasource.minimumIdle"))));
+    }
 
     private Properties hibernateProperties() {
         Properties hibernateProperties = new Properties();
+
         hibernateProperties.setProperty("hibernate.show_sql", environment.getProperty("hibernate.show_sql"));
         hibernateProperties.setProperty("hibernate.format_sql", environment.getProperty("hibernate.format_sql"));
         hibernateProperties.setProperty("hibernate.highlight_sql", environment.getProperty("hibernate.highlight_sql"));

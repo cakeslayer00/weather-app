@@ -86,13 +86,14 @@ public class AuthController {
     public ModelAndView handleException(InvalidCredentialsException e) {
         ModelAndView mav = new ModelAndView("sign-in");
 
-        if (e.getMessage().equals("Invalid username")) {
-            return mav.addObject("usernameError", e.getMessage());
-        }
-
-        if (e.getMessage().equals("Passwords do not match")) {
-            mav.setViewName("sign-up");
-            return mav.addObject("error", e.getMessage());
+        switch (e.getMessage()) {
+            case "Invalid username" -> {
+                return mav.addObject("usernameError", e.getMessage());
+            }
+            case "Passwords do not match" -> {
+                mav.setViewName("sign-up");
+                return mav.addObject("error", e.getMessage());
+            }
         }
 
         return mav.addObject("error", e.getMessage());
@@ -102,10 +103,9 @@ public class AuthController {
     public ModelAndView handleException(POJOPersistenceException ignoredE) {
         ModelAndView mav = new ModelAndView("sign-up");
 
-        if (ignoredE.getMessage().contains("already exists")) {
-            mav.addObject("usernameError", "Account with this email already exists.");
-        }
+        return ignoredE.getMessage().contains("already exists")
+                ? mav.addObject("usernameError", "Account with this username already exists.")
+                : mav.addObject("error", "Unknown persistence error");
 
-        return mav.addObject("error", "How dare you exceed password max length?");
     }
 }

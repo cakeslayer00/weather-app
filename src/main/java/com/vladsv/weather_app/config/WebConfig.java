@@ -2,13 +2,11 @@ package com.vladsv.weather_app.config;
 
 import com.vladsv.weather_app.dao.SessionDao;
 import com.vladsv.weather_app.interceptor.AuthInterceptor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.*;
 import org.springframework.http.client.reactive.ClientHttpConnector;
 import org.springframework.http.client.reactive.JdkClientHttpConnector;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -26,7 +24,9 @@ import java.time.Duration;
 @EnableWebMvc
 @Configuration
 @ComponentScan(basePackages = {"com.vladsv.weather_app"})
+@RequiredArgsConstructor
 @Import(HibernateConfig.class)
+@Profile("dev")
 public class WebConfig implements ApplicationContextAware, WebMvcConfigurer {
 
     private ApplicationContext applicationContext;

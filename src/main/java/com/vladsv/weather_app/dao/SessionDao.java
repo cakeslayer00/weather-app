@@ -20,7 +20,7 @@ public class SessionDao extends BaseDao<UUID, Session> {
         super(emf, Session.class);
     }
 
-    public Optional<Session> findByUser(User user) {
+    public Optional<Session> findSessionByUser(User user) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
 

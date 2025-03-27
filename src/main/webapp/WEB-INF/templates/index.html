@@ -15,7 +15,7 @@
             Weather Tracker
         </a>
         <div class="d-flex align-items-center">
-            <span class="navbar-text me-3">zhukovsd</span>
+            <span th:text="${user.username}" class="navbar-text me-3" >zhukovsd</span>
             <button class="btn btn-outline-danger">Sign out</button>
         </div>
     </div>
@@ -25,7 +25,9 @@
     <div class="container mt-4">
         <div class="d-flex my-4">
             <div class="input-group location-search-input-group me-3">
-                <input class="form-control" type="text" name="name" placeholder="Enter location" required>
+                <label>
+                    <input class="form-control" type="text" name="name" placeholder="Enter location" required>
+                </label>
                 <button class="btn btn-outline-secondary btn-sm clear-input-button" type="button"
                         onclick="this.previousElementSibling.value=''">
                     &times;

@@ -21,7 +21,7 @@ public class AuthService {
     private final SessionDao sessionDao;
 
     public Session obtainSessionByUser(User user) {
-        return sessionDao.findByUser(user)
+        return sessionDao.findSessionByUser(user)
                 .map(this::obtainIfExpired)
                 .orElseGet(() -> new Session(
                         UUID.randomUUID(),

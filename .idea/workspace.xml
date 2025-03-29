@@ -10,13 +10,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d64fa91c-052c-4778-af4d-a132a58cf6c3" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/test/java/AuthorizationServiceAndPersistenceLayerInteractionTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/config/HibernateConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/config/PersistenceConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/config/WebConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/config/WebConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/controller/LocationController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/dto/UserDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/dto/UserDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/service/AuthService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,6 +57,9 @@
       </MavenGeneralSettings>
     </option>
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="Security Analysis" />
+  </component>
   <component name="ProjectColorInfo">{
         &quot;associatedIndex&quot;: 0
         }</component>
@@ -76,6 +77,9 @@
     "HTTP Request.scratch | GET request to example server.executor": "Run",
     "HTTP Request.scratch_1 | #1.executor": "Run",
     "HTTP Request.scratch_1 | #2.executor": "Run",
+    "JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest.givenWac_whenServletContext_thenItProvidesAuthController (1).executor": "Run",
+    "JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest.givenWac_whenServletContext_thenItProvidesAuthController.executor": "Run",
+    "JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest.givenWac_whenServletContext_thenItProvidesGreetController.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
@@ -125,17 +129,28 @@
       <recent name="D:\IdeaProjects\weather-app\src\main\webapp\WEB-INF" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\trash\weather-app\src\main\resources" />
       <recent name="D:\trash\weather-app\src\main\webapp\static\images" />
       <recent name="D:\trash\weather-app\src\main\webapp\static\css" />
       <recent name="D:\trash\weather-app\src\main\webapp\static" />
       <recent name="D:\trash\weather-app\src\main\webapp" />
-      <recent name="D:\trash\weather-app\src\main\webapp\WEB-INF" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.vladsv.weather_app.dao" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest.givenWac_whenServletContext_thenItProvidesAuthController">
+    <configuration name="AuthorizationServiceAndPersistenceLayerInteractionTest.givenWac_whenServletContext_thenItProvidesAuthController" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="weather-app" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="AuthorizationServiceAndPersistenceLayerInteractionTest" />
+      <option name="METHOD_NAME" value="givenWac_whenServletContext_thenItProvidesAuthController" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-Dspring.profiles.active=test" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Tomcat 11.0.5" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 11.0.5" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
       <option name="OPEN_IN_BROWSER" value="false" />
       <option name="COMMON_VM_ARGUMENTS" value="-Dspring.profiles.active=dev" />
@@ -225,6 +240,15 @@
         </option>
       </method>
     </configuration>
+    <list>
+      <item itemvalue="JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest.givenWac_whenServletContext_thenItProvidesAuthController" />
+      <item itemvalue="Tomcat Server.Tomcat 11.0.5" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest.givenWac_whenServletContext_thenItProvidesAuthController" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -295,7 +319,7 @@
       <workItem from="1742808854414" duration="1372000" />
       <workItem from="1743052320707" duration="3041000" />
       <workItem from="1743055390401" duration="5602000" />
-      <workItem from="1743220568488" duration="5437000" />
+      <workItem from="1743220568488" duration="8193000" />
     </task>
     <servers />
   </component>

@@ -17,11 +17,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.net.http.HttpClient;
 import java.time.Duration;
 
-@Profile("dev")
+@Profile({"dev", "test"})
 @EnableWebMvc
 @Configuration
 @ComponentScan(basePackages = {"com.vladsv.weather_app"})
-@Import({HibernateConfig.class, TemplateConfig.class})
+@Import({PersistenceConfig.class, TemplateConfig.class})
 public class WebConfig implements ApplicationContextAware, WebMvcConfigurer {
 
     private ApplicationContext applicationContext;

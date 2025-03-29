@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -19,14 +20,15 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @RequiredArgsConstructor
-public class HibernateConfig {
+@Profile({"dev", "test"})
+@PropertySource("classpath:application-${spring.profiles.active}.properties")
+public class PersistenceConfig {
 
     private final Environment environment;
 
     @Bean
     public PlatformTransactionManager hibernateTransactionManager() {
-        HibernateTransactionManager transactionManager
-                = new HibernateTransactionManager();
+        HibernateTransactionManager transactionManager = new HibernateTransactionManager();
 
         transactionManager.setSessionFactory(sessionFactory().getObject());
 
@@ -45,7 +47,6 @@ public class HibernateConfig {
     }
 
     @Bean
-    @Profile("dev")
     public DataSource dataSource() {
         HikariConfig config = new HikariConfig();
 
@@ -58,26 +59,10 @@ public class HibernateConfig {
         return new HikariDataSource(config);
     }
 
-    @Bean
-    @Profile("test")
-    public DataSource dataSourceTest() {
-        HikariConfig config = new HikariConfig();
-
-        config.setDriverClassName("org.h2.Driver");
-        config.setJdbcUrl("jdbc:h2:mem:mydb;DB_CLOSE_DELAY = -1");
-        config.setUsername("sa");
-        config.setPassword("password");
-
-        return new HikariDataSource(config);
-    }
-
     private void setAdditionalConfigurationProperties(HikariConfig config) {
-        config.setIdleTimeout(Integer.parseInt(
-                Objects.requireNonNull(environment.getProperty("spring.datasource.idleTimeout"))));
-        config.setMaximumPoolSize(Integer.parseInt(
-                Objects.requireNonNull(environment.getProperty("spring.datasource.maximumPoolSize"))));
-        config.setMinimumIdle(Integer.parseInt(
-                Objects.requireNonNull(environment.getProperty("spring.datasource.minimumIdle"))));
+        config.setIdleTimeout(Integer.parseInt(Objects.requireNonNull(environment.getProperty("idleTimeout"))));
+        config.setMaximumPoolSize(Integer.parseInt(Objects.requireNonNull(environment.getProperty("maximumPoolSize"))));
+        config.setMinimumIdle(Integer.parseInt(Objects.requireNonNull(environment.getProperty("minimumIdle"))));
     }
 
     private Properties hibernateProperties() {

@@ -12,3 +12,5 @@ flyway.conf
 /.idea/dataSources.local.xml
 
 application.properties
+application-dev.properties
+application-test.properties

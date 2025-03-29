@@ -33,13 +33,19 @@ public class AuthService {
     public Cookie generateResetCookie(String sessionId) {
         Cookie cookie = new Cookie("SESSIONID", sessionId);
         cookie.setMaxAge(COOKIE_RESET_TIME_IN_SECONDS);
+        cookie.setPath("/");
         return cookie;
     }
 
     public Cookie generateCookie(String sessionId) {
         Cookie cookie = new Cookie("SESSIONID", sessionId);
         cookie.setMaxAge(COOKIE_EXPIRY_TIME_IN_SECONDS);
+        cookie.setPath("/");
         return cookie;
+    }
+
+    public void destroyCookies() {
+
     }
 
     private Session obtainIfExpired(Session session) {

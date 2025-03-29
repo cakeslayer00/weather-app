@@ -2,6 +2,7 @@ package com.vladsv.weather_app.controller;
 
 import com.vladsv.weather_app.dao.SessionDao;
 import com.vladsv.weather_app.dao.UserDao;
+import com.vladsv.weather_app.dto.UserDto;
 import com.vladsv.weather_app.entity.Session;
 import com.vladsv.weather_app.entity.User;
 import com.vladsv.weather_app.exception.InvalidCredentialsException;
@@ -9,6 +10,7 @@ import com.vladsv.weather_app.exception.POJOPersistenceException;
 import com.vladsv.weather_app.service.AuthService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,9 +23,6 @@ import java.util.UUID;
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
-
-    private final UserDao userDao;
-    private final SessionDao sessionDao;
 
     private final AuthService authService;
 
@@ -42,17 +41,7 @@ public class AuthController {
                        @RequestParam(value = "password") String password,
                        HttpServletResponse response) {
 
-        User user = userDao.findByUsername(username)
-                .orElseThrow(() -> new InvalidCredentialsException("Invalid username"));
-
-        if (user.getPassword().equals(password)) {
-            Session session = authService.obtainSessionByUser(user);
-
-            response.addCookie(authService.generateResetCookie(session.getId().toString()));
-            response.addCookie(authService.generateCookie(session.getId().toString()));
-        } else {
-            throw new InvalidCredentialsException("Invalid username or password");
-        }
+        authService.authorize(new UserDto(username,password), response);
 
         return "redirect:/";
     }
@@ -67,29 +56,22 @@ public class AuthController {
             throw new InvalidCredentialsException("Passwords do not match");
         }
 
-        User user = User.builder().username(username).password(password).build();
-        Session session = new Session(
-                UUID.randomUUID(),
-                LocalDateTime.now().plus(Duration.ofHours(1)),
-                user
-        );
+        authService.register(new UserDto(username,password), response);
 
-        userDao.persist(user);
-        sessionDao.persist(session);
-
-        response.addCookie(authService.generateResetCookie(session.getId().toString()));
-        response.addCookie(authService.generateCookie(session.getId().toString()));
         return "redirect:/";
     }
 
     @PostMapping(value = "/logout")
-    public String logout(@CookieValue(name = "SESSIONID") String sessionId, HttpServletResponse response) {
-        response.addCookie(authService.generateResetCookie(sessionId));
+    public String logout(@CookieValue(name = "SESSIONID") String sessionId,
+                         HttpServletResponse response) {
+
+        authService.logout(sessionId, response);
+
         return "redirect:/auth";
     }
 
     @ExceptionHandler
-    public ModelAndView handleException(InvalidCredentialsException e) {
+    public ModelAndView handle(InvalidCredentialsException e) {
         ModelAndView mav = new ModelAndView("sign-in");
 
         return switch (e.getMessage()) {
@@ -103,7 +85,7 @@ public class AuthController {
     }
 
     @ExceptionHandler
-    public ModelAndView handleException(POJOPersistenceException e) {
+    public ModelAndView handle(POJOPersistenceException e) {
         ModelAndView mav = new ModelAndView("sign-up");
 
         return e.getMessage().contains("already exists")

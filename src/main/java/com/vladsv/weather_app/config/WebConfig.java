@@ -2,6 +2,7 @@ package com.vladsv.weather_app.config;
 
 import com.vladsv.weather_app.dao.SessionDao;
 import com.vladsv.weather_app.interceptor.AuthInterceptor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -45,6 +46,11 @@ public class WebConfig implements ApplicationContextAware, WebMvcConfigurer {
                 .build();
 
         return new JdkClientHttpConnector(httpClient);
+    }
+
+    @Bean
+    public ModelMapper getModelMapper() {
+        return new ModelMapper();
     }
 
     @Override

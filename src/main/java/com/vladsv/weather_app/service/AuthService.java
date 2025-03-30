@@ -48,6 +48,9 @@ public class AuthService {
         User user = mapper.map(userDto, User.class);
         Session session = getBuiltSession(user);
 
+        userDao.persist(user);
+        sessionDao.persist(session);
+
         response.addCookie(generateResetCookie(session.getId().toString()));
         response.addCookie(generateCookie(session.getId().toString()));
     }

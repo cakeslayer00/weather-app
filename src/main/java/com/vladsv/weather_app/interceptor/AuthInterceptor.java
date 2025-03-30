@@ -14,8 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Objects;
 import java.util.UUID;
 
 @Component
@@ -27,11 +25,6 @@ public class AuthInterceptor implements HandlerInterceptor {
     //TODO: Break down this code, and my get rid of Interceptor at all.
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        Cookie[] cookies = request.getCookies();
-        if (cookies == null) {
-            throw new UnauthorizedException("Go to hell intruder!");
-        }
-
         Cookie cookie = WebUtils.getCookie(request, "SESSIONID");
 
         if (cookie != null) {

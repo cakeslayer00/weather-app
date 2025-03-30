@@ -9,7 +9,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceException;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.HibernateException;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;

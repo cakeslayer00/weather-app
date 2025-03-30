@@ -20,7 +20,7 @@ public class HomeController {
     private final SessionDao sessionDao;
 
     @GetMapping
-    public ModelAndView index(@CookieValue(name = "SESSIONID") String sessionId) {
+    public ModelAndView index(@CookieValue(name = "`SESSIONID") String sessionId) {
         Session session = sessionDao.findById(UUID.fromString(sessionId))
                 .orElseThrow(() -> new InvalidSessionException("Session with current UUID doesn't exist"));
 

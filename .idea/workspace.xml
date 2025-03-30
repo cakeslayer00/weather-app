@@ -10,11 +10,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d64fa91c-052c-4778-af4d-a132a58cf6c3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/AuthorizationServiceAndPersistenceLayerInteractionTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/config/MapperConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/config/WebClientConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/config/HibernateConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/config/PersistenceConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/config/WebConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/config/WebConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/config/WebAppInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/config/WebApplicationInitializer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/config/WebConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/config/WebApplicationConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/interceptor/AuthInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/interceptor/AuthInterceptor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/service/AuthService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/AuthorizationServiceAndPersistenceLayerInteractionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/AuthorizationServiceAndPersistenceLayerInteractionTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +61,7 @@
     </option>
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="Security Analysis" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
         &quot;associatedIndex&quot;: 0
@@ -80,6 +83,8 @@
     "JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest.givenWac_whenServletContext_thenItProvidesAuthController (1).executor": "Run",
     "JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest.givenWac_whenServletContext_thenItProvidesAuthController.executor": "Run",
     "JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest.givenWac_whenServletContext_thenItProvidesGreetController.executor": "Run",
+    "JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest.givenWac_whenServletContext_thenProvidesAuthController (1).executor": "Run",
+    "JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest.givenWac_whenServletContext_thenProvidesAuthController.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
@@ -99,7 +104,7 @@
     "project.structure.proportion": "0.15527344",
     "project.structure.side.proportion": "0.2",
     "settings.build.tools.auto.reload": "ALL",
-    "settings.editor.selected.configurable": "build.tools",
+    "settings.editor.selected.configurable": "advanced.settings",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -139,14 +144,13 @@
       <recent name="com.vladsv.weather_app.dao" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest.givenWac_whenServletContext_thenItProvidesAuthController">
-    <configuration name="AuthorizationServiceAndPersistenceLayerInteractionTest.givenWac_whenServletContext_thenItProvidesAuthController" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest.givenWac_whenServletContext_thenProvidesAuthController">
+    <configuration name="AuthorizationServiceAndPersistenceLayerInteractionTest.givenWac_whenServletContext_thenProvidesAuthController" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="weather-app" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="AuthorizationServiceAndPersistenceLayerInteractionTest" />
-      <option name="METHOD_NAME" value="givenWac_whenServletContext_thenItProvidesAuthController" />
+      <option name="METHOD_NAME" value="givenWac_whenServletContext_thenProvidesAuthController" />
       <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" value="-Dspring.profiles.active=test" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -241,12 +245,12 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest.givenWac_whenServletContext_thenItProvidesAuthController" />
+      <item itemvalue="JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest.givenWac_whenServletContext_thenProvidesAuthController" />
       <item itemvalue="Tomcat Server.Tomcat 11.0.5" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest.givenWac_whenServletContext_thenItProvidesAuthController" />
+        <item itemvalue="JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest.givenWac_whenServletContext_thenProvidesAuthController" />
       </list>
     </recent_temporary>
   </component>
@@ -320,6 +324,8 @@
       <workItem from="1743052320707" duration="3041000" />
       <workItem from="1743055390401" duration="5602000" />
       <workItem from="1743220568488" duration="8193000" />
+      <workItem from="1743229034084" duration="877000" />
+      <workItem from="1743311594898" duration="5044000" />
     </task>
     <servers />
   </component>

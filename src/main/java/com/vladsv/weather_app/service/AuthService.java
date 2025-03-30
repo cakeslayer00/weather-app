@@ -22,9 +22,11 @@ public class AuthService {
 
     private static final short COOKIE_EXPIRY_TIME_IN_SECONDS = 3600;
     private static final int COOKIE_RESET_TIME_IN_SECONDS = 0;
+    private static final int SESSION_EXPIRY_TIME_IN_HOURS = 1;
 
     private final SessionDao sessionDao;
     private final UserDao userDao;
+
     private final ModelMapper mapper;
 
     public void authorize(UserDto userDto, HttpServletResponse response) {
@@ -59,7 +61,7 @@ public class AuthService {
                 .map(this::obtainIfExpired)
                 .orElseGet(() -> new Session(
                         UUID.randomUUID(),
-                        LocalDateTime.now().plus(Duration.ofHours(1)),
+                        LocalDateTime.now().plus(Duration.ofHours(SESSION_EXPIRY_TIME_IN_HOURS)),
                         user
                 ));
     }
@@ -80,7 +82,7 @@ public class AuthService {
 
     private Session obtainIfExpired(Session session) {
         if (session.getLocalDateTime().isBefore(LocalDateTime.now())) {
-            session.setLocalDateTime(LocalDateTime.now().plus(Duration.ofHours(1)));
+            session.setLocalDateTime(LocalDateTime.now().plus(Duration.ofHours(SESSION_EXPIRY_TIME_IN_HOURS)));
             sessionDao.update(session);
         }
         return session;
@@ -88,7 +90,7 @@ public class AuthService {
 
     private Session getBuiltSession(User user) {
         return Session.builder()
-                .localDateTime(LocalDateTime.now().plus(Duration.ofHours(1)))
+                .localDateTime(LocalDateTime.now().plus(Duration.ofHours(SESSION_EXPIRY_TIME_IN_HOURS)))
                 .user(user)
                 .build();
     }

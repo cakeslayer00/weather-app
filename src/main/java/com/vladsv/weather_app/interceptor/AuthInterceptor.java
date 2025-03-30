@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.WebUtils;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -23,6 +24,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     private final SessionDao sessionDao;
 
+    //TODO: Break down this code, and my get rid of Interceptor at all.
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Cookie[] cookies = request.getCookies();
@@ -30,19 +32,17 @@ public class AuthInterceptor implements HandlerInterceptor {
             throw new UnauthorizedException("Go to hell intruder!");
         }
 
-        Arrays.stream(cookies)
-                .filter(cookie -> Objects.equals(cookie.getName(), "SESSIONID"))
-                .findAny()
-                .ifPresent(
-                        cookie -> {
-                            UUID id = UUID.fromString(cookie.getValue());
-                            Session session = sessionDao.findById(id)
-                                    .orElseThrow(() -> new InvalidSessionException("There's no session with provided SESSIONID"));
-                            if (session.getLocalDateTime().isBefore(LocalDateTime.now())) {
-                                throw new UnauthorizedException("Session expired");
-                            }
-                        }
-                );
+        Cookie cookie = WebUtils.getCookie(request, "SESSIONID");
+
+        if (cookie != null) {
+            UUID id = UUID.fromString(cookie.getValue());
+            Session session = sessionDao.findById(id)
+                    .orElseThrow(() -> new InvalidSessionException("There's no session with provided SESSIONID"));
+
+            if (session.getLocalDateTime().isBefore(LocalDateTime.now())) {
+                throw new UnauthorizedException("Session expired");
+            }
+        }
 
         return HandlerInterceptor.super.preHandle(request, response, handler);
     }

@@ -14,6 +14,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Objects;
 import java.util.UUID;
 
 @Component
@@ -22,31 +24,49 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     private final SessionDao sessionDao;
 
-    //TODO: Break down this code, and my get rid of Interceptor at all.
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        Cookie cookie = WebUtils.getCookie(request, "SESSIONID");
+    public boolean preHandle(HttpServletRequest request,
+                             HttpServletResponse response,
+                             Object handler) throws Exception {
 
-        if (cookie != null) {
-            UUID id = UUID.fromString(cookie.getValue());
-            Session session = sessionDao.findById(id)
-                    .orElseThrow(() -> new InvalidSessionException("There's no session with provided SESSIONID"));
+        Cookie cookie = Objects.requireNonNull(WebUtils.getCookie(request, "SESSIONID"),
+                "Cookie missing");
 
-            if (session.getLocalDateTime().isBefore(LocalDateTime.now())) {
-                throw new UnauthorizedException("Session expired");
-            }
+        UUID id = UUID.fromString(cookie.getValue());
+        Session session = sessionDao.findById(id)
+                .orElseThrow(() -> new InvalidSessionException("No session with provided id"));
+
+        if (session.getLocalDateTime().isBefore(LocalDateTime.now())) {
+            throw new UnauthorizedException("Session expired");
         }
 
         return HandlerInterceptor.super.preHandle(request, response, handler);
     }
 
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
+    public void postHandle(HttpServletRequest request,
+                           HttpServletResponse response,
+                           Object handler,
+                           ModelAndView modelAndView) {
+
+        String sessionId = Objects.requireNonNull(WebUtils.getCookie(request, "SESSIONID")).getValue();
+        String[] uris = {"/", "/location"};
+
+        if (Arrays.asList(uris).contains(request.getRequestURI())) {
+
+            Session session = sessionDao.findById(UUID.fromString(sessionId))
+                    .orElseThrow(() -> new InvalidSessionException("No session with provided id"));
+
+            modelAndView.addObject("username", session.getUser().getUsername());
+        }
     }
 
     @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+    public void afterCompletion(HttpServletRequest request,
+                                HttpServletResponse response,
+                                Object handler,
+                                Exception ex) throws Exception {
+
         HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
     }
 }

@@ -1,8 +1,14 @@
 package com.vladsv.weather_app.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vladsv.weather_app.dao.LocationDao;
 import com.vladsv.weather_app.dao.SessionDao;
+import com.vladsv.weather_app.dto.WeatherCardDto;
+import com.vladsv.weather_app.entity.Location;
 import com.vladsv.weather_app.entity.Session;
 import com.vladsv.weather_app.exception.InvalidSessionException;
+import com.vladsv.weather_app.service.WeatherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -10,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -17,15 +24,37 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class HomeController {
 
+    private final WeatherService weatherService;
+
     private final SessionDao sessionDao;
+    private final LocationDao locationDao;
+
+    private final ObjectMapper jsonMapper;
 
     @GetMapping
-    public ModelAndView index(@CookieValue(name = "`SESSIONID") String sessionId) {
-        Session session = sessionDao.findById(UUID.fromString(sessionId))
-                .orElseThrow(() -> new InvalidSessionException("Session with current UUID doesn't exist"));
+    public ModelAndView index(@CookieValue(name = "SESSIONID") String sessionId) {
 
-        return new ModelAndView("index")
-                .addObject("username", session.getUser().getUsername());
+        Session session = sessionDao.findById(UUID.fromString(sessionId))
+                .orElseThrow(() -> new InvalidSessionException("No session with provided id"));
+
+        List<Location> locations = locationDao.findAllByUser(session.getUser());
+
+        List<WeatherCardDto> weatherCards = locations.stream()
+                .map(location -> {
+                    String weatherCardJsonString = weatherService.getWeatherByGeoCoordinates(
+                            location.getLatitude().toString(),
+                            location.getLongitude().toString()
+                    );
+
+                    try {
+                        //TODO: Apply mapper configuration.
+                        return jsonMapper.readValue(weatherCardJsonString, WeatherCardDto.class);
+                    } catch (JsonProcessingException e) {
+                        throw new RuntimeException(e);
+                    }
+                }).toList();
+
+        return new ModelAndView("index").addObject("weatherCards", weatherCards);
     }
 
 }

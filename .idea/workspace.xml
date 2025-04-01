@@ -10,10 +10,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d64fa91c-052c-4778-af4d-a132a58cf6c3" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/controller/LocationController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/dto/LocationDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/service/AuthService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/AuthorizationServiceAndPersistenceLayerInteractionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/AuthorizationServiceAndPersistenceLayerInteractionTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/client/WeatherClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/client/WeatherClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/config/MapperConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/config/MapperConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/controller/HomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/controller/HomeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/interceptor/AuthInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/interceptor/AuthInterceptor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/templates/error.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/templates/error.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/templates/search-results.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/templates/search-results.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/templates/sign-in-with-errors.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/templates/sign-up-with-errors.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/templates/sign-up.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/templates/sign-up.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,7 +89,8 @@
     "HTTP Request.scratch | GET request to example server.executor": "Run",
     "HTTP Request.scratch_1 | #1.executor": "Run",
     "HTTP Request.scratch_1 | #2.executor": "Run",
-    "JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest.executor": "Debug",
+    "HTTP Request.test | #1.executor": "Run",
+    "JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest.executor": "Run",
     "JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest.givenWac_whenServletContext_thenItProvidesAuthController (1).executor": "Run",
     "JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest.givenWac_whenServletContext_thenItProvidesAuthController.executor": "Run",
     "JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest.givenWac_whenServletContext_thenItProvidesGreetController.executor": "Run",
@@ -104,7 +115,7 @@
     "project.structure.proportion": "0.15527344",
     "project.structure.side.proportion": "0.2",
     "settings.build.tools.auto.reload": "ALL",
-    "settings.editor.selected.configurable": "actions.on.save",
+    "settings.editor.selected.configurable": "spring",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -144,7 +155,10 @@
       <recent name="com.vladsv.weather_app.dao" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest">
+  <component name="RunManager" selected="Tomcat Server.Tomcat 11.0.5">
+    <configuration name="test | #1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/test.http" executionIdentifier="#1" runType="Run single request">
+      <method v="2" />
+    </configuration>
     <configuration name="AuthorizationServiceAndPersistenceLayerInteractionTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="weather-app" />
       <option name="PACKAGE_NAME" value="" />
@@ -244,11 +258,13 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="HTTP Request.test | #1" />
       <item itemvalue="JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest" />
       <item itemvalue="Tomcat Server.Tomcat 11.0.5" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="HTTP Request.test | #1" />
         <item itemvalue="JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest" />
       </list>
     </recent_temporary>
@@ -262,6 +278,9 @@
     </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SpringGeneralSettings">
+    <option name="showProfilesPanel" value="false" />
+  </component>
   <component name="StructureViewState">
     <option name="selectedTab" value="Physical" />
   </component>
@@ -329,7 +348,10 @@
       <workItem from="1743331954572" duration="2962000" />
       <workItem from="1743426065102" duration="554000" />
       <workItem from="1743428031919" duration="2000" />
-      <workItem from="1743489176898" duration="5149000" />
+      <workItem from="1743489176898" duration="5278000" />
+      <workItem from="1743498739391" duration="191000" />
+      <workItem from="1743498939080" duration="303000" />
+      <workItem from="1743500780335" duration="9706000" />
     </task>
     <servers />
   </component>
@@ -363,15 +385,6 @@
     </option>
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/AuthorizationServiceAndPersistenceLayerInteractionTest.java</url>
-          <line>66</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="jakarta.servlet.http.Cookie" memberName="value" />

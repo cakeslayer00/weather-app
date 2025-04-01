@@ -14,3 +14,5 @@ flyway.conf
 application.properties
 application-dev.properties
 application-test.properties
+
+test.http

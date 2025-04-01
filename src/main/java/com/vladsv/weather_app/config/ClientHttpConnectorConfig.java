@@ -9,7 +9,7 @@ import java.net.http.HttpClient;
 import java.time.Duration;
 
 @Configuration
-public class WebClientConfig {
+public class ClientHttpConnectorConfig {
 
     @Bean
     public ClientHttpConnector getClientHttpConnector() {

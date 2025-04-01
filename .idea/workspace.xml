@@ -11,10 +11,10 @@
   <component name="ChangeListManager">
     <list default="true" id="d64fa91c-052c-4778-af4d-a132a58cf6c3" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/controller/HomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/controller/HomeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/dao/BaseDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/dao/BaseDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/interceptor/AuthInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/interceptor/AuthInterceptor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/config/PersistenceConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/config/PersistenceConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/config/WebApplicationConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/config/WebApplicationConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/config/WebApplicationInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/config/WebApplicationInitializer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/service/AuthService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/AuthorizationServiceAndPersistenceLayerInteractionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/AuthorizationServiceAndPersistenceLayerInteractionTest.java" afterDir="false" />
     </list>
@@ -73,55 +73,55 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;HTTP Request.All in scratch.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.scratch | #2.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.scratch | #3.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.scratch | #4.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.scratch | GET request to example server.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.scratch_1 | #1.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.scratch_1 | #2.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest.givenWac_whenServletContext_thenItProvidesAuthController (1).executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest.givenWac_whenServletContext_thenItProvidesAuthController.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest.givenWac_whenServletContext_thenItProvidesGreetController.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest.givenWac_whenServletContext_thenProvidesAuthController (1).executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest.givenWac_whenServletContext_thenProvidesAuthController.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Tomcat Server.Tomcat 11.0.2.executor&quot;: &quot;Debug&quot;,
-    &quot;Tomcat Server.Tomcat 11.0.5.executor&quot;: &quot;Run&quot;,
-    &quot;Tomcat Server.index.jsp.executor&quot;: &quot;Run&quot;,
-    &quot;deletionFromPopupRequiresConfirmation&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/trash/weather-app/src/main/webapp&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15527344&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.build.tools.auto.reload&quot;: &quot;ALL&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;actions.on.save&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "HTTP Request.All in scratch.executor": "Run",
+    "HTTP Request.scratch | #2.executor": "Run",
+    "HTTP Request.scratch | #3.executor": "Run",
+    "HTTP Request.scratch | #4.executor": "Run",
+    "HTTP Request.scratch | GET request to example server.executor": "Run",
+    "HTTP Request.scratch_1 | #1.executor": "Run",
+    "HTTP Request.scratch_1 | #2.executor": "Run",
+    "JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest.executor": "Run",
+    "JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest.givenWac_whenServletContext_thenItProvidesAuthController (1).executor": "Run",
+    "JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest.givenWac_whenServletContext_thenItProvidesAuthController.executor": "Run",
+    "JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest.givenWac_whenServletContext_thenItProvidesGreetController.executor": "Run",
+    "JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest.givenWac_whenServletContext_thenProvidesAuthController (1).executor": "Run",
+    "JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest.givenWac_whenServletContext_thenProvidesAuthController.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Tomcat Server.Tomcat 11.0.2.executor": "Debug",
+    "Tomcat Server.Tomcat 11.0.5.executor": "Run",
+    "Tomcat Server.index.jsp.executor": "Run",
+    "deletionFromPopupRequiresConfirmation": "false",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/trash/weather-app/src/main/webapp",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15527344",
+    "project.structure.side.proportion": "0.2",
+    "settings.build.tools.auto.reload": "ALL",
+    "settings.editor.selected.configurable": "actions.on.save",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;postgresql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
     ],
-    &quot;com.intellij.ide.scratch.LRUPopupBuilder$1/&quot;: [
-      &quot;PostgreSQL&quot;
+    "com.intellij.ide.scratch.LRUPopupBuilder$1/": [
+      "PostgreSQL"
     ],
-    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
-      &quot;HTTP Request&quot;
+    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
+      "HTTP Request"
     ]
   }
-}</component>
+}]]></component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
@@ -157,17 +157,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="AuthorizationServiceAndPersistenceLayerInteractionTest.givenWac_whenServletContext_thenProvidesAuthController" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="weather-app" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="AuthorizationServiceAndPersistenceLayerInteractionTest" />
-      <option name="METHOD_NAME" value="givenWac_whenServletContext_thenProvidesAuthController" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Tomcat 11.0.5" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 11.0.5" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
+    <configuration name="Tomcat 11.0.5" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 11.0.5" ALTERNATIVE_JRE_ENABLED="true" ALTERNATIVE_JRE_PATH="21" nameIsGenerated="true">
       <option name="OPEN_IN_BROWSER" value="false" />
       <option name="COMMON_VM_ARGUMENTS" value="-Dspring.profiles.active=dev" />
       <option name="UPDATING_POLICY" value="restart-server" />
@@ -258,13 +248,11 @@
     </configuration>
     <list>
       <item itemvalue="JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest" />
-      <item itemvalue="JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest.givenWac_whenServletContext_thenProvidesAuthController" />
       <item itemvalue="Tomcat Server.Tomcat 11.0.5" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest" />
-        <item itemvalue="JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest.givenWac_whenServletContext_thenProvidesAuthController" />
       </list>
     </recent_temporary>
   </component>
@@ -341,7 +329,10 @@
       <workItem from="1743229034084" duration="877000" />
       <workItem from="1743311594898" duration="8552000" />
       <workItem from="1743326655821" duration="3014000" />
-      <workItem from="1743331954572" duration="427000" />
+      <workItem from="1743331954572" duration="2962000" />
+      <workItem from="1743426065102" duration="554000" />
+      <workItem from="1743428031919" duration="2000" />
+      <workItem from="1743489176898" duration="3309000" />
     </task>
     <servers />
   </component>
@@ -379,11 +370,11 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/AuthorizationServiceAndPersistenceLayerInteractionTest.java</url>
-          <line>35</line>
+          <line>38</line>
           <properties>
             <option name="lambda-ordinal" value="-1" />
           </properties>
-          <option name="timeStamp" value="3" />
+          <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

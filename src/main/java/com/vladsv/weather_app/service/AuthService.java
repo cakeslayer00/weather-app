@@ -31,8 +31,7 @@ public class AuthService {
 
     public void authorize(UserDto userDto, HttpServletResponse response) {
 
-        User user = userDao.findByUsername(userDto.getUsername())
-                .orElseThrow(() -> new InvalidCredentialsException("Invalid username"));
+        User user = userDao.findByUsername(userDto.getUsername()).orElseThrow(() -> new InvalidCredentialsException("Invalid username"));
 
         if (user.getPassword().equals(userDto.getPassword())) {
             Session session = obtainSessionByUser(user);
@@ -65,8 +64,7 @@ public class AuthService {
                 .orElseGet(() -> new Session(
                         UUID.randomUUID(),
                         LocalDateTime.now().plus(Duration.ofHours(SESSION_EXPIRY_TIME_IN_HOURS)),
-                        user
-                ));
+                        user));
     }
 
     private Cookie generateResetCookie(String sessionId) {
@@ -92,10 +90,10 @@ public class AuthService {
     }
 
     private Session getBuiltSession(User user) {
-        return Session.builder()
-                .localDateTime(LocalDateTime.now().plus(Duration.ofHours(SESSION_EXPIRY_TIME_IN_HOURS)))
-                .user(user)
-                .build();
+        return new Session(
+                UUID.randomUUID(),
+                LocalDateTime.now().plus(Duration.ofHours(SESSION_EXPIRY_TIME_IN_HOURS)),
+                user);
     }
 
 }

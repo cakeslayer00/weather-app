@@ -2,13 +2,11 @@ package com.vladsv.weather_app.config;
 
 import com.vladsv.weather_app.dao.SessionDao;
 import com.vladsv.weather_app.interceptor.AuthInterceptor;
+import org.flywaydb.core.Flyway;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -18,14 +16,24 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebMvc
 @Configuration
 @ComponentScan(basePackages = {"com.vladsv.weather_app"})
-@Import({PersistenceConfig.class, TemplateConfig.class, WebClientConfig.class, MapperConfig.class})
+@Import({PersistenceConfig.class,
+        TemplateConfig.class,
+        WebClientConfig.class,
+        MapperConfig.class})
 public class WebApplicationConfig implements ApplicationContextAware, WebMvcConfigurer {
 
-    private ApplicationContext applicationContext;
+    private ApplicationContext ac;
+
+    @Bean
+    public Flyway flyway() {
+        Flyway flyway = Flyway.configure().dataSource(ac.getBean(PersistenceConfig.class).dataSource()).load();
+        flyway.migrate();
+        return flyway;
+    }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new AuthInterceptor(applicationContext.getBean(SessionDao.class)))
+        registry.addInterceptor(new AuthInterceptor(ac.getBean(SessionDao.class)))
                 .excludePathPatterns("/auth/**", "/static/**");
     }
 
@@ -36,7 +44,7 @@ public class WebApplicationConfig implements ApplicationContextAware, WebMvcConf
     }
 
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
+    public void setApplicationContext(ApplicationContext ac) throws BeansException {
+        this.ac = ac;
     }
 }

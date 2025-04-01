@@ -1,5 +1,6 @@
 import com.vladsv.weather_app.config.PersistenceConfig;
 import com.vladsv.weather_app.config.WebApplicationConfig;
+import com.vladsv.weather_app.dao.SessionDao;
 import com.vladsv.weather_app.dao.UserDao;
 import com.vladsv.weather_app.dto.UserDto;
 import com.vladsv.weather_app.service.AuthService;
@@ -20,12 +21,14 @@ public class AuthorizationServiceAndPersistenceLayerInteractionTest {
 
     private AuthService authService;
     private UserDao userDao;
+    private SessionDao sessionDao;
     private MockHttpServletResponse response;
 
     @BeforeEach
     public void setup(WebApplicationContext wac, @Autowired MockHttpServletResponse response) {
         this.authService = wac.getBean(AuthService.class);
         this.userDao = wac.getBean(UserDao.class);
+        this.sessionDao = wac.getBean(SessionDao.class);
         this.response = response;
     }
 

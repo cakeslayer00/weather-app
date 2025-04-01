@@ -1,23 +1,14 @@
 package com.vladsv.weather_app.controller;
 
-import com.vladsv.weather_app.dao.SessionDao;
-import com.vladsv.weather_app.dao.UserDao;
 import com.vladsv.weather_app.dto.UserDto;
-import com.vladsv.weather_app.entity.Session;
-import com.vladsv.weather_app.entity.User;
 import com.vladsv.weather_app.exception.InvalidCredentialsException;
 import com.vladsv.weather_app.exception.POJOPersistenceException;
 import com.vladsv.weather_app.service.AuthService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Controller
 @RequestMapping("/auth")

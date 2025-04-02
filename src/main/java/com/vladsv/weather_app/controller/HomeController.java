@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vladsv.weather_app.dao.LocationDao;
 import com.vladsv.weather_app.dao.SessionDao;
+import com.vladsv.weather_app.deserializer.WeatherCardDeserializer;
 import com.vladsv.weather_app.dto.WeatherCardDto;
 import com.vladsv.weather_app.entity.Location;
 import com.vladsv.weather_app.entity.Session;
@@ -29,7 +30,8 @@ public class HomeController {
     private final SessionDao sessionDao;
     private final LocationDao locationDao;
 
-    private final ObjectMapper jsonMapper;
+    private final ObjectMapper objectMapper;
+    private final WeatherCardDeserializer weatherCardDeserializer;
 
     @GetMapping
     public ModelAndView index(@CookieValue(name = "SESSIONID") String sessionId) {
@@ -37,6 +39,10 @@ public class HomeController {
         Session session = sessionDao.findById(UUID.fromString(sessionId))
                 .orElseThrow(() -> new InvalidSessionException("No session with provided id"));
 
+        return getAllWeatherCards(session);
+    }
+
+    public ModelAndView getAllWeatherCards(Session session) {
         List<Location> locations = locationDao.findAllByUser(session.getUser());
 
         List<WeatherCardDto> weatherCards = locations.stream()
@@ -47,8 +53,7 @@ public class HomeController {
                     );
 
                     try {
-                        //TODO: Apply mapper configuration.
-                        return jsonMapper.readValue(weatherCardJsonString, WeatherCardDto.class);
+                        return objectMapper.readValue(weatherCardJsonString, WeatherCardDto.class);
                     } catch (JsonProcessingException e) {
                         throw new RuntimeException(e);
                     }

@@ -1,5 +1,7 @@
 package com.vladsv.weather_app.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.vladsv.weather_app.deserializer.WeatherCardDeserializer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +11,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonDeserialize(using = WeatherCardDeserializer.class)
 public class WeatherCardDto {
 
     private String weather; // Clouds, Rain etc.

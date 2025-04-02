@@ -10,20 +10,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d64fa91c-052c-4778-af4d-a132a58cf6c3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/controller/LocationController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/dto/LocationDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/deserializer/WeatherCardDeserializer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/client/WeatherClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/client/WeatherClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/config/MapperConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/config/MapperConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/controller/HomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/controller/HomeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/interceptor/AuthInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/interceptor/AuthInterceptor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/templates/error.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/templates/error.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/dto/LocationDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/dto/LocationDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/dto/WeatherCardDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/vladsv/weather_app/dto/WeatherCardDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/templates/search-results.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/templates/search-results.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/templates/sign-in-with-errors.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/templates/sign-up-with-errors.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/templates/sign-up.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/templates/sign-up.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,6 +83,7 @@
     "HTTP Request.scratch_1 | #1.executor": "Run",
     "HTTP Request.scratch_1 | #2.executor": "Run",
     "HTTP Request.test | #1.executor": "Run",
+    "HTTP Request.test | #2.executor": "Run",
     "JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest.executor": "Run",
     "JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest.givenWac_whenServletContext_thenItProvidesAuthController (1).executor": "Run",
     "JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest.givenWac_whenServletContext_thenItProvidesAuthController.executor": "Run",
@@ -157,6 +151,9 @@
   </component>
   <component name="RunManager" selected="Tomcat Server.Tomcat 11.0.5">
     <configuration name="test | #1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/test.http" executionIdentifier="#1" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="test | #2" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/test.http" executionIdentifier="#2" index="2" runType="Run single request">
       <method v="2" />
     </configuration>
     <configuration name="AuthorizationServiceAndPersistenceLayerInteractionTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
@@ -259,11 +256,13 @@
     </configuration>
     <list>
       <item itemvalue="HTTP Request.test | #1" />
+      <item itemvalue="HTTP Request.test | #2" />
       <item itemvalue="JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest" />
       <item itemvalue="Tomcat Server.Tomcat 11.0.5" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="HTTP Request.test | #2" />
         <item itemvalue="HTTP Request.test | #1" />
         <item itemvalue="JUnit.AuthorizationServiceAndPersistenceLayerInteractionTest" />
       </list>
@@ -351,7 +350,8 @@
       <workItem from="1743489176898" duration="5278000" />
       <workItem from="1743498739391" duration="191000" />
       <workItem from="1743498939080" duration="303000" />
-      <workItem from="1743500780335" duration="9706000" />
+      <workItem from="1743500780335" duration="11645000" />
+      <workItem from="1743565262004" duration="4166000" />
     </task>
     <servers />
   </component>

@@ -1,5 +1,6 @@
 package com.vladsv.weather_app.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,8 +15,10 @@ import java.math.BigDecimal;
 public class LocationDto {
 
     private String name;
-    private BigDecimal lat;
-    private BigDecimal lon;
+    @JsonProperty("lat")
+    private BigDecimal latitude;
+    @JsonProperty("lon")
+    private BigDecimal longitude;
     private String country;
     private String state;
 

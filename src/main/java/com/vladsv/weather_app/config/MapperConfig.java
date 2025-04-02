@@ -3,7 +3,6 @@ package com.vladsv.weather_app.config;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vladsv.weather_app.deserializer.WeatherCardDeserializer;
-import com.vladsv.weather_app.dto.WeatherCardDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +22,7 @@ public class MapperConfig {
 
     @Bean
     public WeatherCardDeserializer getWeatherCardDeserializer() {
-        return new WeatherCardDeserializer(WeatherCardDto.class);
+        return new WeatherCardDeserializer();
     }
 
 }

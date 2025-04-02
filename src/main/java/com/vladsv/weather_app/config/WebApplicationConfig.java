@@ -18,7 +18,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @ComponentScan(basePackages = {"com.vladsv.weather_app"})
 @Import({PersistenceConfig.class,
         TemplateConfig.class,
-        ClientHttpConnectorConfig.class,
+        WebClientConfig.class,
         MapperConfig.class})
 public class WebApplicationConfig implements ApplicationContextAware, WebMvcConfigurer {
 

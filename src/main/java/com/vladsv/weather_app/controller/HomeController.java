@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vladsv.weather_app.dao.LocationDao;
 import com.vladsv.weather_app.dao.SessionDao;
-import com.vladsv.weather_app.deserializer.WeatherCardDeserializer;
 import com.vladsv.weather_app.dto.WeatherCardDto;
 import com.vladsv.weather_app.entity.Location;
 import com.vladsv.weather_app.entity.Session;
@@ -31,7 +30,6 @@ public class HomeController {
     private final LocationDao locationDao;
 
     private final ObjectMapper objectMapper;
-    private final WeatherCardDeserializer weatherCardDeserializer;
 
     @GetMapping
     public ModelAndView index(@CookieValue(name = "SESSIONID") String sessionId) {
@@ -42,6 +40,7 @@ public class HomeController {
         return getAllWeatherCards(session);
     }
 
+    //TODO: Трахнуть этот метод и на части и на сервисы и пенисы
     public ModelAndView getAllWeatherCards(Session session) {
         List<Location> locations = locationDao.findAllByUser(session.getUser());
 

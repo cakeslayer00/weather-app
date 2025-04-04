@@ -2,13 +2,11 @@ package com.vladsv.weather_app.controller;
 
 import com.vladsv.weather_app.dto.UserDto;
 import com.vladsv.weather_app.exception.InvalidCredentialsException;
-import com.vladsv.weather_app.exception.POJOPersistenceException;
 import com.vladsv.weather_app.service.AuthService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/auth")
@@ -59,29 +57,5 @@ public class AuthController {
         authService.logout(sessionId, response);
 
         return "redirect:/auth";
-    }
-
-    @ExceptionHandler
-    public ModelAndView handle(InvalidCredentialsException e) {
-        ModelAndView mav = new ModelAndView("sign-in");
-
-        return switch (e.getMessage()) {
-            case "Invalid username" -> mav.addObject("usernameError", e.getMessage());
-            case "Passwords do not match" -> {
-                mav.setViewName("sign-up");
-                yield mav.addObject("error", e.getMessage());
-            }
-            default -> mav.addObject("error", e.getMessage());
-        };
-    }
-
-    @ExceptionHandler
-    public ModelAndView handle(POJOPersistenceException e) {
-        ModelAndView mav = new ModelAndView("sign-up");
-
-        return e.getMessage().contains("already exists")
-                ? mav.addObject("usernameError", "Account with this username already exists.")
-                : mav.addObject("error", "Unknown persistence error");
-
     }
 }

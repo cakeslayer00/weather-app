@@ -3,7 +3,6 @@ package com.vladsv.weather_app.interceptor;
 import com.vladsv.weather_app.dao.SessionDao;
 import com.vladsv.weather_app.entity.Session;
 import com.vladsv.weather_app.exception.InvalidSessionException;
-import com.vladsv.weather_app.exception.UnauthorizedException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -30,15 +29,21 @@ public class AuthInterceptor implements HandlerInterceptor {
                              HttpServletResponse response,
                              Object handler) throws Exception {
 
-        Cookie cookie = Objects.requireNonNull(WebUtils.getCookie(request, "SESSIONID"),
-                "Cookie missing");
+        try {
+            Cookie cookie = Objects.requireNonNull(WebUtils.getCookie(request, "SESSIONID"),
+                    "Cookie missing");
 
-        UUID id = UUID.fromString(cookie.getValue());
-        Session session = sessionDao.findById(id)
-                .orElseThrow(() -> new InvalidSessionException("No session with provided id"));
+            UUID id = UUID.fromString(cookie.getValue());
+            Session session = sessionDao.findById(id)
+                    .orElseThrow(() -> new InvalidSessionException("No session with provided id"));
 
-        if (session.getLocalDateTime().isBefore(LocalDateTime.now())) {
-            throw new UnauthorizedException("Session expired");
+            if (session.getLocalDateTime().isBefore(LocalDateTime.now())) {
+                throw new InvalidSessionException("Session expired");
+            }
+        } catch (NullPointerException e) {
+            throw new InvalidSessionException(e.getMessage());
+        } catch (IllegalArgumentException e) {
+            throw new InvalidSessionException("Invalid session UUID");
         }
 
         return HandlerInterceptor.super.preHandle(request, response, handler);

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Weather Viewer – Sign In</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{static/css/style.css}">
+    <link rel="stylesheet" th:href="@{/static/css/style.css}">
 </head>
 <body>
 
@@ -18,7 +18,7 @@
     <h2 class="text-center mb-5">Sign Up</h2>
 
     <div class="row justify-content-center">
-        <div th:if="${error != null && usernameError == null}" class="col-12 col-lg-4 col-md-6 col-sm-12">
+        <div th:if="${error == 'Unknown persistence error'}" class="col-12 col-lg-4 col-md-6 col-sm-12">
             <div class="alert alert-danger" role="alert">
                 <label th:text="${error}"></label>
             </div>
@@ -28,16 +28,16 @@
     <div class="row justify-content-center">
         <div class="col-12 col-lg-4 col-md-6 col-sm-12">
             <form th:action="@{/auth/reg}" th:method="post" class="mt-4">
-                <div th:switch="${usernameError}" class="mb-3">
-                    <div th:case="null">
+                <div class="mb-3">
+                    <div th:if="${error == null or error == 'Unknown persistence error'}">
                         <label for="username" class="form-label">Username</label>
                         <input type="text" class="form-control" id="username" name="username" required value=""/>
                     </div>
-                    <div th:case="*" class="has-validation">
+                    <div th:unless="${error == null or error == 'Unknown persistence error'}" class="has-validation">
                         <label for="username-error" class="form-label">Username</label>
                         <input type="text" class="form-control is-invalid" id="username-error" name="username" required value=""/>
                         <div class="invalid-feedback">
-                            <label th:text="${usernameError}"></label>
+                            <label th:text="${error}"></label>
                         </div>
                     </div>
                 </div>

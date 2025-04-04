@@ -26,6 +26,7 @@ public abstract class BaseDao<I extends Serializable, T> implements CrudDao<I, T
             em.getTransaction().begin();
             em.persist(entity);
             em.getTransaction().commit();
+
         } catch (PersistenceException e) {
             throw new POJOPersistenceException(e.getMessage());
         }

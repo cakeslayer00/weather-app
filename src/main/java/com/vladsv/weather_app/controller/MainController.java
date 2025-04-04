@@ -39,7 +39,7 @@ public class MainController {
 
     /*TODO: Ask mentor about what would be right here, to send sessionId down to the service layer to call something like
         getUserWeatherCards, or have a map method like this out there.
-        and also about this suppresswarnings cuz i have fooking interceptor that handles whether the session id is find or not.
+        and also about this suppress warnings cuz i have fucking interceptor that handles whether the session id is find or not.
      */
 
 }

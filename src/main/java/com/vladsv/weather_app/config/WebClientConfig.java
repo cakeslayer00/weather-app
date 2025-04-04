@@ -12,18 +12,10 @@ import java.time.Duration;
 @Configuration
 public class WebClientConfig {
 
-    private static final String WEATHER_DATA_URL = "https://api.openweathermap.org/data/2.5";
-    private static final String WEATHER_GEO_URL = "https://api.openweathermap.org/geo/1.0";
-
-    //TODO: Бля заебало!
     @Bean()
-    public WebClient webClientForLocationSearch() {
-        return getConfiguredWebClient(WEATHER_GEO_URL);
-    }
-
-    @Bean()
-    public WebClient webClientForWeatherSearch() {
-        return getConfiguredWebClient(WEATHER_DATA_URL);
+    public WebClient webClient() {
+        return WebClient.builder()
+                .clientConnector(getClientHttpConnector()).build();
     }
 
     private ClientHttpConnector getClientHttpConnector() {
@@ -33,12 +25,6 @@ public class WebClientConfig {
                 .build();
 
         return new JdkClientHttpConnector(httpClient);
-    }
-
-    private WebClient getConfiguredWebClient(String url) {
-        return WebClient.builder()
-                .baseUrl(url)
-                .clientConnector(getClientHttpConnector()).build();
     }
 
 }

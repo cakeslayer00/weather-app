@@ -38,7 +38,7 @@ public class LocationDao extends BaseDao<Long, Location> {
     public void delete(Long locationId) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
-            em.createQuery("delete from Location l where l.id = :id").setParameter("id", locationId);
+            em.createQuery("delete from Location l where l.id = :id").setParameter("id", locationId).executeUpdate();
             em.getTransaction().commit();
         } catch (PersistenceException e) {
             throw new POJODeletionException(e.getMessage());

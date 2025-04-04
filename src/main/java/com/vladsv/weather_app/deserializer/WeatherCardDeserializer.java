@@ -31,6 +31,6 @@ public class WeatherCardDeserializer extends StdDeserializer<WeatherCardDto> {
         String humidity = node.get("main").get("humidity").asText();
         String icon = node.get("weather").findValue("icon").asText();
 
-        return new WeatherCardDto(weather, location, temperature, feelsLike, humidity, icon);
+        return new WeatherCardDto(null, weather, location, temperature, feelsLike, humidity, icon);
     }
 }

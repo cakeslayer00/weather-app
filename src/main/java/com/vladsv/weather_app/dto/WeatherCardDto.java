@@ -14,6 +14,7 @@ import lombok.Setter;
 @JsonDeserialize(using = WeatherCardDeserializer.class)
 public class WeatherCardDto {
 
+    private Long id;
     private String weather;
     private String location;
     private String temperature;

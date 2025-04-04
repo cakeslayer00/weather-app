@@ -1,7 +1,6 @@
 
 package com.vladsv.weather_app.dao;
 
-import com.vladsv.weather_app.exception.POJODeletionException;
 import com.vladsv.weather_app.exception.POJOObtainingException;
 import com.vladsv.weather_app.exception.POJOPersistenceException;
 import com.vladsv.weather_app.exception.POJOUpdatingException;
@@ -12,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -46,21 +44,6 @@ public abstract class BaseDao<I extends Serializable, T> implements CrudDao<I, T
     }
 
     @Override
-    public List<T> findAll() {
-        try (EntityManager em = emf.createEntityManager()) {
-            em.getTransaction().begin();
-
-            String query = "select t from " + entityClass.getSimpleName() + " t";
-            List<T> res = em.createQuery(query, entityClass)
-                    .getResultList();
-            em.getTransaction().commit();
-            return res;
-        } catch (PersistenceException e) {
-            throw new POJOObtainingException(e.getMessage());
-        }
-    }
-
-    @Override
     public void update(T entity) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
@@ -68,17 +51,6 @@ public abstract class BaseDao<I extends Serializable, T> implements CrudDao<I, T
             em.getTransaction().commit();
         } catch (PersistenceException e) {
             throw new POJOUpdatingException(e.getMessage());
-        }
-    }
-
-    @Override
-    public void delete(T entity) {
-        try (EntityManager em = emf.createEntityManager()) {
-            em.getTransaction().begin();
-            em.remove(entity);
-            em.getTransaction().commit();
-        } catch (PersistenceException e) {
-            throw new POJODeletionException(e.getMessage());
         }
     }
 

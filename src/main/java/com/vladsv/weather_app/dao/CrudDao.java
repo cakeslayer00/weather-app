@@ -1,7 +1,6 @@
 package com.vladsv.weather_app.dao;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Optional;
 
 public interface CrudDao<I extends Serializable, T> {
@@ -10,9 +9,6 @@ public interface CrudDao<I extends Serializable, T> {
 
     Optional<T> findById(I id);
 
-    List<T> findAll();
-
     void update(T entity);
 
-    void delete(T entity);
 }

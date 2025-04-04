@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.UUID;
 
+@SuppressWarnings("OptionalGetWithoutIsPresent")
 @Component
 @RequiredArgsConstructor
 public class AuthInterceptor implements HandlerInterceptor {
@@ -54,8 +55,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 
         if (Arrays.asList(uris).contains(request.getRequestURI())) {
 
-            Session session = sessionDao.findById(UUID.fromString(sessionId))
-                    .orElseThrow(() -> new InvalidSessionException("No session with provided id"));
+            Session session = sessionDao.findById(UUID.fromString(sessionId)).get();
 
             modelAndView.addObject("username", session.getUser().getUsername());
         }

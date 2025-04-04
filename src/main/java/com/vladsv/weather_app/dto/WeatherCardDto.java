@@ -20,5 +20,5 @@ public class WeatherCardDto {
     private String temperature;
     private String feelsLikeTemperature;
     private String humidity;
-    private String icon;
+    private String iconUrl;
 }

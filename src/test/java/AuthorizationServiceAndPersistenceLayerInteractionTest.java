@@ -16,7 +16,6 @@ import org.springframework.test.context.event.annotation.AfterTestMethod;
 import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,7 +24,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @ActiveProfiles("test")
 public class AuthorizationServiceAndPersistenceLayerInteractionTest {
 
-    public static final int SESSION_EXPIRY_IN_SECONDS = 10;
     private AuthService authService;
     private UserDao userDao;
     private SessionDao sessionDao;
@@ -63,16 +61,18 @@ public class AuthorizationServiceAndPersistenceLayerInteractionTest {
     @Test
     @AfterTestMethod
     @SuppressWarnings("OptionalGetWithoutIsPresent")
-    public void givenExistingUser_whenAuthorizationIfSessionExpired_thenSessionExpiryTimeUpdated() throws InterruptedException {
+    public void givenExistingUser_whenAuthorizationIfSessionExpired_thenSessionExpiryTimeUpdated() {
         UserDto dto = new UserDto("testusername", "1234asdf");
 
-        Thread.sleep(Duration.ofSeconds(SESSION_EXPIRY_IN_SECONDS));
+        User user = userDao.findByUsername(dto.getUsername()).get();
+        Session before = sessionDao.findSessionByUser(user).get();
+        before.setExpiryAt(LocalDateTime.now().minusMinutes(1));
+        sessionDao.update(before);
 
         authService.authorize(dto, response);
-        User user = userDao.findByUsername(dto.getUsername()).get();
-        Session session = sessionDao.findSessionByUser(user).get();
+        Session after = sessionDao.findSessionByUser(user).get();
 
-        assertTrue(session.getLocalDateTime().isAfter(LocalDateTime.now()));
+        assertTrue(after.getExpiryAt().isAfter(before.getExpiryAt()));
 
     }
 

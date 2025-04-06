@@ -10,23 +10,18 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-@PropertySource("classpath:application-${spring.profiles.active}.properties")
 public class AuthService {
 
-    private static final short COOKIE_EXPIRY_TIME_IN_SECONDS = 3600;
+    private static final int COOKIE_EXPIRY_TIME_IN_SECONDS = 3600;
     private static final int COOKIE_RESET_TIME_IN_SECONDS = 0;
-    @Value("${spring.session.duration:10}")
-    private int sessionExpiryTimeInSeconds;
+    private static final int SESSION_EXPIRY_TIME_IN_SECONDS = 3600;
 
     private final SessionDao sessionDao;
     private final UserDao userDao;
@@ -68,7 +63,7 @@ public class AuthService {
                 .map(this::obtainIfExpired)
                 .orElseGet(() -> new Session(
                         UUID.randomUUID(),
-                        LocalDateTime.now().plus(Duration.ofSeconds(sessionExpiryTimeInSeconds)),
+                        LocalDateTime.now().plusSeconds(SESSION_EXPIRY_TIME_IN_SECONDS),
                         user));
     }
 
@@ -87,8 +82,8 @@ public class AuthService {
     }
 
     private Session obtainIfExpired(Session session) {
-        if (session.getLocalDateTime().isBefore(LocalDateTime.now())) {
-            session.setLocalDateTime(LocalDateTime.now().plus(Duration.ofSeconds(sessionExpiryTimeInSeconds)));
+        if (session.getExpiryAt().isBefore(LocalDateTime.now())) {
+            session.setExpiryAt(LocalDateTime.now().plusSeconds(SESSION_EXPIRY_TIME_IN_SECONDS));
             sessionDao.update(session);
         }
         return session;
@@ -97,7 +92,7 @@ public class AuthService {
     private Session getBuiltSession(User user) {
         return new Session(
                 UUID.randomUUID(),
-                LocalDateTime.now().plus(Duration.ofSeconds(sessionExpiryTimeInSeconds)),
+                LocalDateTime.now().plusSeconds(SESSION_EXPIRY_TIME_IN_SECONDS),
                 user);
     }
 

@@ -37,7 +37,7 @@ public class AuthInterceptor implements HandlerInterceptor {
             Session session = sessionDao.findById(id)
                     .orElseThrow(() -> new InvalidSessionException("No session with provided id"));
 
-            if (session.getLocalDateTime().isBefore(LocalDateTime.now())) {
+            if (session.getExpiryAt().isBefore(LocalDateTime.now())) {
                 throw new InvalidSessionException("Session expired");
             }
         } catch (NullPointerException e) {

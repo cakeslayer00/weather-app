@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClient;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -32,7 +32,7 @@ public class WeatherService {
     private static final String MEASURE_UNIT_METRIC = "metric";
     private static final int SEARCH_QUERY_LOCATIONS_AMOUNT_LIMIT = 10;
 
-    private final RestClient restClient;
+    private final WebClient webClient;
     private final ObjectMapper objectMapper;
     private final LocationDao locationDao;
     private final SessionDao sessionDao;
@@ -80,7 +80,7 @@ public class WeatherService {
     }
 
     private String getLocationsByNameInJson(String location) {
-        return restClient.mutate().baseUrl(WEATHER_GEO_URL).build().get()
+        return webClient.mutate().baseUrl(WEATHER_GEO_URL).build().get()
                 .uri(
                         uriBuilder -> uriBuilder.path("/direct")
                                 .queryParam("q", location)
@@ -90,11 +90,12 @@ public class WeatherService {
                 )
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .body(String.class);
+                .bodyToMono(String.class)
+                .block();
     }
 
     private String getWeatherByGeoCoordinatesInJson(String lat, String lon) {
-        return restClient.mutate().baseUrl(WEATHER_DATA_URL).build().get()
+        return webClient.mutate().baseUrl(WEATHER_DATA_URL).build().get()
                 .uri(
                         uriBuilder -> uriBuilder.path("/weather")
                                 .queryParam("lat", lat)
@@ -104,7 +105,8 @@ public class WeatherService {
                 )
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .body(String.class);
+                .bodyToMono(String.class)
+                .block();
     }
 
     private Location getBuiltLocation(String name, String latitude, String longitude, Session session) {

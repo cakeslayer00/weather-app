@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.nio.charset.StandardCharsets;
+
 @Component
 @RequiredArgsConstructor
 public class OpenWeatherApiClient {
@@ -32,6 +34,7 @@ public class OpenWeatherApiClient {
                                 .build()
                 )
                 .accept(MediaType.APPLICATION_JSON)
+                .acceptCharset(StandardCharsets.UTF_8)
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, ClientResponse::createException)
                 .onStatus(HttpStatusCode::is5xxServerError, ClientResponse::createException)
@@ -49,6 +52,7 @@ public class OpenWeatherApiClient {
                                 .queryParam("units", MEASURE_UNIT_METRIC).build()
                 )
                 .accept(MediaType.APPLICATION_JSON)
+                .acceptCharset(StandardCharsets.UTF_8)
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, ClientResponse::createException)
                 .onStatus(HttpStatusCode::is5xxServerError, ClientResponse::createException)

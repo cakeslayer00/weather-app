@@ -33,14 +33,15 @@ public class AuthService {
         User user = userDao.findByUsername(userDto.getUsername())
                 .orElseThrow(() -> new InvalidCredentialsException("Invalid username"));
 
-        if (user.getPassword().equals(userDto.getPassword())) {
-            Session session = obtainSessionByUser(user);
-
-            response.addCookie(generateResetCookie(session.getId().toString()));
-            response.addCookie(generateCookie(session.getId().toString()));
-        } else {
+        if (!user.getPassword().equals(userDto.getPassword())) {
             throw new InvalidCredentialsException("Invalid username or password");
         }
+
+        Session session = obtainSessionByUser(user);
+        sessionDao.update(session);
+
+        response.addCookie(generateResetCookie(session.getId().toString()));
+        response.addCookie(generateCookie(session.getId().toString()));
     }
 
     public void register(UserDto userDto, HttpServletResponse response) {

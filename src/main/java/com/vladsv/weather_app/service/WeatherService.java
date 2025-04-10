@@ -48,6 +48,8 @@ public class WeatherService {
 
         try {
             WeatherCardDto weatherCardDto = objectMapper.readValue(weatherCardJsonString, WeatherCardDto.class);
+            weatherCardDto.setLocation(
+                    String.format("%s,%s", location.getName(), weatherCardDto.getLocation().split(",")[1]));
             weatherCardDto.setId(location.getId());
             return weatherCardDto;
         } catch (JsonProcessingException e) {

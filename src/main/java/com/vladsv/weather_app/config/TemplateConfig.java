@@ -24,6 +24,7 @@ public class TemplateConfig implements ApplicationContextAware {
         templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode(TemplateMode.HTML);
         templateResolver.setCacheable(true);
+        templateResolver.setCharacterEncoding("UTF-8");
 
         return templateResolver;
     }
@@ -40,6 +41,7 @@ public class TemplateConfig implements ApplicationContextAware {
     @Bean
     public ThymeleafViewResolver viewResolver() {
         ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
+        viewResolver.setCharacterEncoding("UTF-8");
         viewResolver.setTemplateEngine(templateEngine());
         return viewResolver;
     }

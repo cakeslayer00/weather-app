@@ -20,15 +20,15 @@ public class GlobalControllerExceptionHandler {
     }
 
     @ExceptionHandler
-    public ModelAndView unknownSqlError(SQLException ex) {
+    public ModelAndView unknownSqlError(SQLException e) {
         ModelAndView mav = new ModelAndView("error");
-        return mav.addObject("message", "Something terrible happened to our database");
+        return mav.addObject("message", e.getMessage());
     }
 
     @ExceptionHandler
-    public ModelAndView unknownJsonException(JsonException ex) {
+    public ModelAndView unknownJsonException(JsonException e) {
         ModelAndView mav = new ModelAndView("error");
-        return mav.addObject("message", "Couldn't process JSON, try later");
+        return mav.addObject("message", e.getMessage());
     }
 
     @ExceptionHandler(InvalidSessionException.class)
@@ -57,10 +57,12 @@ public class GlobalControllerExceptionHandler {
             return mav.addObject("error", e.getMessage());
         }
 
-        return e.getMessage().contains("already exists")
-                ? mav.addObject("error", "Account with this username already exists.")
-                : mav.addObject("error", "Unknown persistence error");
+        if (e.getMessage().contains("already exists")) {
+            return mav.addObject("error", "Account with this username already exists.");
+        }
 
+        mav.setViewName("error");
+        return mav.addObject("message", e.getMessage());
     }
 
 }

@@ -10,7 +10,7 @@
 
 <nav class="navbar navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" th:href="@{/}">
             <img src="../../static/images/weather-app.png" alt="" width="30" height="24"
                  class="d-inline-block align-text-top">
             Weather Tracker
@@ -28,7 +28,7 @@
     <div class="container mt-4">
         <form class="d-flex my-4" th:action="@{/location}" th:method="get" >
             <div class="input-group location-search-input-group me-3">
-                <input class="form-control" type="text" name="q" placeholder="Enter location"
+                <input class="form-control" type="text" name="q"  placeholder="Enter location"
                        required>
                 <button class="btn btn-outline-secondary btn-sm clear-input-button" type="button"
                         onclick="this.previousElementSibling.value=''">

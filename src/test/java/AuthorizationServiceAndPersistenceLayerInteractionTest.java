@@ -5,7 +5,7 @@ import com.vladsv.weather_app.dao.UserDao;
 import com.vladsv.weather_app.dto.UserDto;
 import com.vladsv.weather_app.entity.Session;
 import com.vladsv.weather_app.entity.User;
-import com.vladsv.weather_app.exception.POJOPersistenceException;
+import com.vladsv.weather_app.exception.sql.POJOPersistenceException;
 import com.vladsv.weather_app.service.AuthService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

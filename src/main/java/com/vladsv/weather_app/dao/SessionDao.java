@@ -2,7 +2,7 @@ package com.vladsv.weather_app.dao;
 
 import com.vladsv.weather_app.entity.Session;
 import com.vladsv.weather_app.entity.User;
-import com.vladsv.weather_app.exception.POJOObtainingException;
+import com.vladsv.weather_app.exception.sql.POJOObtainingException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceException;

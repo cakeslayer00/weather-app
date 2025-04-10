@@ -2,19 +2,33 @@ package com.vladsv.weather_app.handler;
 
 import com.vladsv.weather_app.exception.InvalidCredentialsException;
 import com.vladsv.weather_app.exception.InvalidSessionException;
-import com.vladsv.weather_app.exception.POJOPersistenceException;
+import com.vladsv.weather_app.exception.json.JsonException;
+import com.vladsv.weather_app.exception.sql.POJOPersistenceException;
+import com.vladsv.weather_app.exception.sql.SQLException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.servlet.ModelAndView;
 
 @ControllerAdvice
 public class GlobalControllerExceptionHandler {
 
-    @ExceptionHandler
-    public ModelAndView databaseError(Exception ex) {
+    @ExceptionHandler(WebClientResponseException.class)
+    public ModelAndView handle(WebClientResponseException e) {
         ModelAndView mav = new ModelAndView("error");
-        return mav
-                .addObject("message", ex.getMessage());
+        return mav.addObject("message", e.getMessage());
+    }
+
+    @ExceptionHandler
+    public ModelAndView unknownSqlError(SQLException ex) {
+        ModelAndView mav = new ModelAndView("error");
+        return mav.addObject("message", "Something terrible happened to our database");
+    }
+
+    @ExceptionHandler
+    public ModelAndView unknownJsonException(JsonException ex) {
+        ModelAndView mav = new ModelAndView("error");
+        return mav.addObject("message", "Couldn't process JSON, try later");
     }
 
     @ExceptionHandler(InvalidSessionException.class)

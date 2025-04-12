@@ -1,5 +1,6 @@
 package com.vladsv.weather_app.service;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.vladsv.weather_app.dao.SessionDao;
 import com.vladsv.weather_app.dao.UserDao;
 import com.vladsv.weather_app.dto.UserDto;
@@ -26,14 +27,14 @@ public class AuthService {
     private final SessionDao sessionDao;
     private final UserDao userDao;
 
-    private final ModelMapper mapper;
+    private final ModelMapper modelMapper;
 
     public void authorize(UserDto userDto, HttpServletResponse response) {
 
         User user = userDao.findByUsername(userDto.getUsername())
                 .orElseThrow(() -> new InvalidCredentialsException("Invalid username"));
 
-        if (!user.getPassword().equals(userDto.getPassword())) {
+        if (!isPasswordsIdentical(userDto, user)) {
             throw new InvalidCredentialsException("Invalid username or password");
         }
 
@@ -45,7 +46,7 @@ public class AuthService {
     }
 
     public void register(UserDto userDto, HttpServletResponse response) {
-        User user = mapper.map(userDto, User.class);
+        User user = modelMapper.map(userDto, User.class);
         Session session = getBuiltSession(user);
 
         userDao.persist(user);
@@ -95,6 +96,10 @@ public class AuthService {
                 UUID.randomUUID(),
                 LocalDateTime.now().plusSeconds(SESSION_EXPIRY_TIME_IN_SECONDS),
                 user);
+    }
+
+    private boolean isPasswordsIdentical(UserDto userDto, User user) {
+        return BCrypt.verifyer().verify(userDto.getPassword().toCharArray(), user.getPassword().toCharArray()).verified;
     }
 
 }

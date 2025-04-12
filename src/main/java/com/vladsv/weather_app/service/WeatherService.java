@@ -12,7 +12,6 @@ import com.vladsv.weather_app.entity.Location;
 import com.vladsv.weather_app.entity.Session;
 import com.vladsv.weather_app.exception.json.JsonException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -21,7 +20,6 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-@PropertySource("classpath:application.properties")
 @SuppressWarnings("OptionalGetWithoutIsPresent")
 public class WeatherService {
 

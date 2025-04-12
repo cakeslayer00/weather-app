@@ -1,5 +1,3 @@
-import com.vladsv.weather_app.config.PersistenceConfig;
-import com.vladsv.weather_app.config.WebApplicationConfig;
 import com.vladsv.weather_app.dao.SessionDao;
 import com.vladsv.weather_app.dao.UserDao;
 import com.vladsv.weather_app.dto.UserDto;
@@ -7,6 +5,7 @@ import com.vladsv.weather_app.entity.Session;
 import com.vladsv.weather_app.entity.User;
 import com.vladsv.weather_app.exception.sql.POJOPersistenceException;
 import com.vladsv.weather_app.service.AuthService;
+import config.TestConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,7 @@ import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringJUnitWebConfig(classes = {WebApplicationConfig.class, PersistenceConfig.class})
+@SpringJUnitWebConfig(TestConfig.class)
 @ActiveProfiles("test")
 public class AuthorizationServiceAndPersistenceLayerInteractionTest {
 

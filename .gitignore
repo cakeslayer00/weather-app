@@ -17,3 +17,5 @@ application-dev.properties
 application-test.properties
 
 test.http
+mvnw
+mvnw.cmd

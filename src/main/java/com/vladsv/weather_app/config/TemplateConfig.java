@@ -13,13 +13,13 @@ import org.thymeleaf.templatemode.TemplateMode;
 @Configuration
 public class TemplateConfig implements ApplicationContextAware {
 
-    private ApplicationContext applicationContext;
+    private ApplicationContext ac;
 
     @Bean
     public SpringResourceTemplateResolver templateResolver() {
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
 
-        templateResolver.setApplicationContext(this.applicationContext);
+        templateResolver.setApplicationContext(this.ac);
         templateResolver.setPrefix("/WEB-INF/templates/");
         templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode(TemplateMode.HTML);
@@ -48,6 +48,6 @@ public class TemplateConfig implements ApplicationContextAware {
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
+        this.ac = applicationContext;
     }
 }

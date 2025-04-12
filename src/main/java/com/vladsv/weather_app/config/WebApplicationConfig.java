@@ -12,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@Profile({"dev", "test"})
+@Profile("dev")
 @EnableWebMvc
 @Configuration
 @ComponentScan(basePackages = {"com.vladsv.weather_app"})

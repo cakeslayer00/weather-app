@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -21,7 +20,6 @@ import java.util.Properties;
 @EnableTransactionManagement
 @RequiredArgsConstructor
 @Profile({"dev", "test"})
-@PropertySource("classpath:application-${spring.profiles.active}.properties")
 public class PersistenceConfig {
 
     private final Environment environment;

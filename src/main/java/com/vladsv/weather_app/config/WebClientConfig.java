@@ -12,10 +12,14 @@ import java.time.Duration;
 @Configuration
 public class WebClientConfig {
 
+    private static final String BASE_URL = "https://api.openweathermap.org/";
+
     @Bean()
     public WebClient webClient() {
         return WebClient.builder()
-                .clientConnector(getClientHttpConnector()).build();
+                .clientConnector(getClientHttpConnector())
+                .baseUrl(BASE_URL)
+                .build();
     }
 
     private ClientHttpConnector getClientHttpConnector() {

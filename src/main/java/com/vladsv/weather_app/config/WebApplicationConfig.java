@@ -16,6 +16,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebMvc
 @Configuration
 @ComponentScan(basePackages = {"com.vladsv.weather_app"})
+@PropertySource("classpath:application.properties")
 @Import({PersistenceConfig.class,
         TemplateConfig.class,
         WebClientConfig.class,

@@ -13,8 +13,8 @@ import java.nio.charset.StandardCharsets;
 @Component
 @RequiredArgsConstructor
 public class OpenWeatherApiClient {
-    private static final String WEATHER_DATA_URL = "https://api.openweathermap.org/data/2.5/weather";
-    private static final String WEATHER_GEO_URL = "https://api.openweathermap.org/geo/1.0/direct";
+    private static final String WEATHER_DATA_URI_PATH = "data/2.5/weather";
+    private static final String WEATHER_GEO_URI_PATH = "geo/1.0/direct";
 
     private static final String MEASURE_UNIT_METRIC = "metric";
     private static final int SEARCH_QUERY_LOCATIONS_AMOUNT_LIMIT = 10;
@@ -22,15 +22,16 @@ public class OpenWeatherApiClient {
     private final WebClient webClient;
 
     @Value("${appid}")
-    private String api;
+    private String apiKey;
 
     public String getLocationsByNameInJson(String location) {
-        return webClient.mutate().baseUrl(WEATHER_GEO_URL).build().get()
+        return webClient.get()
                 .uri(
                         uriBuilder -> uriBuilder
+                                .path(WEATHER_GEO_URI_PATH)
                                 .queryParam("q", location)
                                 .queryParam("limit", SEARCH_QUERY_LOCATIONS_AMOUNT_LIMIT)
-                                .queryParam("appid", api)
+                                .queryParam("appid", apiKey)
                                 .build()
                 )
                 .accept(MediaType.APPLICATION_JSON)
@@ -43,13 +44,15 @@ public class OpenWeatherApiClient {
     }
 
     public String getWeatherByGeoCoordinatesInJson(String lat, String lon) {
-        return webClient.mutate().baseUrl(WEATHER_DATA_URL).build().get()
+        return webClient.get()
                 .uri(
                         uriBuilder -> uriBuilder
+                                .path(WEATHER_DATA_URI_PATH)
                                 .queryParam("lat", lat)
                                 .queryParam("lon", lon)
-                                .queryParam("appid", api)
-                                .queryParam("units", MEASURE_UNIT_METRIC).build()
+                                .queryParam("units", MEASURE_UNIT_METRIC)
+                                .queryParam("appid", apiKey)
+                                .build()
                 )
                 .accept(MediaType.APPLICATION_JSON)
                 .acceptCharset(StandardCharsets.UTF_8)

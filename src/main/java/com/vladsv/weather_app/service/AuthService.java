@@ -10,6 +10,7 @@ import com.vladsv.weather_app.exception.InvalidCredentialsException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthService {
 
     private static final int COOKIE_EXPIRY_TIME_IN_SECONDS = 3600;
@@ -43,6 +45,7 @@ public class AuthService {
 
         response.addCookie(generateResetCookie(session.getId().toString()));
         response.addCookie(generateCookie(session.getId().toString()));
+        log.info("Authorization complete for user: {}", user);
     }
 
     public void register(UserDto userDto, HttpServletResponse response) {
@@ -54,10 +57,12 @@ public class AuthService {
 
         response.addCookie(generateResetCookie(session.getId().toString()));
         response.addCookie(generateCookie(session.getId().toString()));
+        log.info("Registration complete for user: {}", user);
     }
 
     public void logout(String sessionId, HttpServletResponse response) {
         response.addCookie(generateResetCookie(sessionId));
+        log.info("User logged out for session id: {}", sessionId);
     }
 
     private Session obtainSessionByUser(User user) {

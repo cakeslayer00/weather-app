@@ -7,11 +7,13 @@ import com.vladsv.weather_app.exception.sql.POJOObtainingException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
+@Slf4j
 public class LocationDao extends BaseDao<Long, Location> {
 
     public static final String SELECT_LOCATION_WITH_GIVEN_USER = "select l from Location l where l.user = :user";
@@ -29,8 +31,11 @@ public class LocationDao extends BaseDao<Long, Location> {
                     .getResultList();
 
             em.getTransaction().commit();
+
+            log.info("Found {} locations with user {}", locations.size(), user);
             return locations;
         } catch (PersistenceException e) {
+            log.error("Error occurred during search for all locations by user: {} ", e.getMessage());
             throw new POJOObtainingException(e.getMessage());
         }
     }
@@ -40,7 +45,9 @@ public class LocationDao extends BaseDao<Long, Location> {
             em.getTransaction().begin();
             em.createQuery("delete from Location l where l.id = :id").setParameter("id", locationId).executeUpdate();
             em.getTransaction().commit();
+            log.info("Deleted location with id {}", locationId);
         } catch (PersistenceException e) {
+            log.error("Error occurred during deletion of location: {} ", e.getMessage());
             throw new POJODeletionException(e.getMessage());
         }
     }

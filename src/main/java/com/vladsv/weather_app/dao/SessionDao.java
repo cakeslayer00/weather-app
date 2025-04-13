@@ -6,12 +6,14 @@ import com.vladsv.weather_app.exception.sql.POJOObtainingException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 import java.util.UUID;
 
 @Component
+@Slf4j
 public class SessionDao extends BaseDao<UUID, Session> {
 
     private static final String SELECT_SESSION_BY_USER_QUERY = "select s from Session s where s.user = :user";
@@ -29,8 +31,11 @@ public class SessionDao extends BaseDao<UUID, Session> {
                     .getResultList().stream().findAny();
 
             em.getTransaction().commit();
+
+            log.info("Found session belonging to user {}", user);
             return session;
         } catch (PersistenceException e) {
+            log.error("Error occurred during search for session by user: {} ", e.getMessage());
             throw new POJOObtainingException(e.getMessage());
         }
     }

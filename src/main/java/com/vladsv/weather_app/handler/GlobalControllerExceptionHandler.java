@@ -5,12 +5,14 @@ import com.vladsv.weather_app.exception.InvalidSessionException;
 import com.vladsv.weather_app.exception.json.JsonException;
 import com.vladsv.weather_app.exception.sql.POJOPersistenceException;
 import com.vladsv.weather_app.exception.sql.SQLException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.servlet.ModelAndView;
 
 @ControllerAdvice
+@Slf4j
 public class GlobalControllerExceptionHandler {
 
     @ExceptionHandler(WebClientResponseException.class)
@@ -32,7 +34,8 @@ public class GlobalControllerExceptionHandler {
     }
 
     @ExceptionHandler(InvalidSessionException.class)
-    public String sessionError() {
+    public String sessionError(InvalidSessionException e) {
+        log.error("Error related to session: {}", e.getMessage());
         return "redirect:/auth";
     }
 
@@ -45,6 +48,7 @@ public class GlobalControllerExceptionHandler {
             return mav.addObject("error", e.getMessage());
         }
 
+        log.error("Error occurred during credentials validation: {} ", e.getMessage());
         mav.setViewName("sign-in");
         return mav.addObject("error", e.getMessage());
     }

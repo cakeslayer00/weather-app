@@ -21,7 +21,7 @@ public class OpenWeatherApiClient {
 
     private final WebClient webClient;
 
-    @Value("${appid}")
+    @Value("${openweather.api}")
     private String apiKey;
 
     public String getLocationsByNameInJson(String location) {

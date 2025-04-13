@@ -1,13 +1,15 @@
 package com.vladsv.weather_app.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
 @Entity
-@Getter
-@Setter
+@Data
 @Table(name = "locations")
 @Builder
 @NoArgsConstructor

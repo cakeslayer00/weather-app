@@ -1,5 +1,4 @@
 target/
-flyway.conf
 
 /shelf/
 /workspace.xml
@@ -12,8 +11,5 @@ flyway.conf
 /.idea/dataSources.local.xml
 .mvn/
 
-application.properties
-
-test.http
 mvnw
 mvnw.cmd

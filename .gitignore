@@ -13,8 +13,6 @@ flyway.conf
 .mvn/
 
 application.properties
-application-dev.properties
-application-test.properties
 
 test.http
 mvnw

@@ -2,6 +2,7 @@ package com.vladsv.weather_app.controller;
 
 import com.vladsv.weather_app.dao.LocationDao;
 import com.vladsv.weather_app.dao.SessionDao;
+import com.vladsv.weather_app.dto.WeatherCardDto;
 import com.vladsv.weather_app.entity.Location;
 import com.vladsv.weather_app.entity.Session;
 import com.vladsv.weather_app.service.WeatherService;
@@ -28,13 +29,12 @@ public class MainController {
 
     @GetMapping
     public ModelAndView index(@CookieValue(name = "SESSIONID") String sessionId) {
-
         Session session = sessionDao.findById(UUID.fromString(sessionId)).get();
 
         List<Location> locations = locationDao.findAllByUser(session.getUser());
+        List<WeatherCardDto> weatherCards = locations.stream().map(weatherService::mapLocationToWeatherCardDto).toList();
 
-        return new ModelAndView("index").addObject("weatherCards",
-                locations.stream().map(weatherService::mapLocationToWeatherCardDto).toList());
+        return new ModelAndView("index").addObject("weatherCards",weatherCards);
     }
 
     /*TODO: Ask mentor about what would be right here, to send sessionId down to the service layer to call something like

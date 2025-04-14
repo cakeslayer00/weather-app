@@ -18,7 +18,6 @@ public class LocationController {
 
     @GetMapping
     public ModelAndView getLocationsByName(@RequestParam(name = "q") String locationName) {
-
         List<LocationDto> locations = weatherService.getLocationsByName(locationName);
 
         return new ModelAndView("search-results").addObject("locations", locations);
@@ -29,7 +28,6 @@ public class LocationController {
                               @RequestParam(name = "name") String name,
                               @RequestParam(name = "latitude") String latitude,
                               @RequestParam(name = "longitude") String longitude) {
-
         weatherService.addLocation(sessionId, name, latitude, longitude);
 
         return "redirect:/";

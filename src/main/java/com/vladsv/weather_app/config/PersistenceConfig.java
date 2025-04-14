@@ -13,14 +13,13 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
+import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
 @RequiredArgsConstructor
 @Profile({"dev", "test"})
 public class PersistenceConfig {
-
-    //private final Environment environment;
 
     @Value("${db.url}")
     private String databaseUrl;
@@ -43,6 +42,15 @@ public class PersistenceConfig {
     @Value("${db.idleTimeout}")
     private long databaseIdleTimeout;
 
+    @Value("hibernate.show_sql")
+    private String hibernateShowSql;
+
+    @Value("hibernate.format_sql")
+    private String hibernateFormatSql;
+
+    @Value("hibernate.highlight_sql")
+    private String hibernateHighlightSql;
+
     @Bean
     public PlatformTransactionManager hibernateTransactionManager() {
         HibernateTransactionManager transactionManager = new HibernateTransactionManager();
@@ -55,18 +63,15 @@ public class PersistenceConfig {
     @Bean
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-
         sessionFactory.setPackagesToScan("com.vladsv.weather_app.entity");
         sessionFactory.setDataSource(dataSource());
-        //sessionFactory.setHibernateProperties(hibernateProperties());
-
+        sessionFactory.setHibernateProperties(hibernateProperties());
         return sessionFactory;
     }
 
     @Bean
     public DataSource dataSource() {
         HikariConfig config = new HikariConfig();
-
         config.setDriverClassName(databaseDriver);
         config.setJdbcUrl(databaseUrl);
         config.setUsername(databaseUsername);
@@ -74,18 +79,15 @@ public class PersistenceConfig {
         config.setIdleTimeout(databaseIdleTimeout);
         config.setMaximumPoolSize(databasePoolSize);
         config.setMinimumIdle(databaseMinimumIdle);
-
         return new HikariDataSource(config);
     }
 
-//    private Properties hibernateProperties() {
-//        Properties hibernateProperties = new Properties();
-//
-//        hibernateProperties.setProperty("hibernate.show_sql", environment.getProperty("hibernate.show_sql"));
-//        hibernateProperties.setProperty("hibernate.format_sql", environment.getProperty("hibernate.format_sql"));
-//        hibernateProperties.setProperty("hibernate.highlight_sql", environment.getProperty("hibernate.highlight_sql"));
-//
-//        return hibernateProperties;
-//    }
+    private Properties hibernateProperties() {
+        Properties hibernateProperties = new Properties();
+        hibernateProperties.setProperty("hibernate.show_sql", hibernateShowSql);
+        hibernateProperties.setProperty("hibernate.format_sql", hibernateFormatSql);
+        hibernateProperties.setProperty("hibernate.highlight_sql", hibernateHighlightSql);
+        return hibernateProperties;
+    }
 
 }

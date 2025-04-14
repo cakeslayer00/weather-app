@@ -20,7 +20,7 @@ import java.util.Optional;
 public abstract class BaseDao<I extends Serializable, T> implements CrudDao<I, T> {
 
     protected final EntityManagerFactory emf;
-    private final Class<T> entityClass;
+    private final Class<T> clazz;
 
     @Override
     public void persist(T entity) {
@@ -28,6 +28,7 @@ public abstract class BaseDao<I extends Serializable, T> implements CrudDao<I, T
             em.getTransaction().begin();
             em.persist(entity);
             em.getTransaction().commit();
+
             log.info("Persisted entity: {}", entity);
         } catch (PersistenceException e) {
             log.error("Error persisting entity: {}", entity, e);
@@ -39,8 +40,9 @@ public abstract class BaseDao<I extends Serializable, T> implements CrudDao<I, T
     public Optional<T> findById(I id) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
-            Optional<T> entity = Optional.ofNullable(em.find(entityClass, id));
+            Optional<T> entity = Optional.ofNullable(em.find(clazz, id));
             em.getTransaction().commit();
+
             log.info("Retrieved entity: {}", entity);
             return entity;
         } catch (PersistenceException e) {
@@ -55,6 +57,7 @@ public abstract class BaseDao<I extends Serializable, T> implements CrudDao<I, T
             em.getTransaction().begin();
             em.merge(entity);
             em.getTransaction().commit();
+
             log.info("Updated entity: {}", entity);
         } catch (PersistenceException e) {
             log.error("Error updating entity: {}", entity, e);

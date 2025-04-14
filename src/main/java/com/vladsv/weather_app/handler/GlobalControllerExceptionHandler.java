@@ -15,6 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 @Slf4j
 public class GlobalControllerExceptionHandler {
 
+    private static final String ACCOUNT_ALREADY_EXISTS_MESSAGE = "Account with this username already exists.";
+
     @ExceptionHandler(WebClientResponseException.class)
     public ModelAndView handle(WebClientResponseException e) {
         ModelAndView mav = new ModelAndView("error");
@@ -62,7 +64,7 @@ public class GlobalControllerExceptionHandler {
         }
 
         if (e.getMessage().contains("already exists")) {
-            return mav.addObject("error", "Account with this username already exists.");
+            return mav.addObject("error", ACCOUNT_ALREADY_EXISTS_MESSAGE);
         }
 
         mav.setViewName("error");

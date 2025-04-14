@@ -45,6 +45,7 @@ public class LocationDao extends BaseDao<Long, Location> {
             em.getTransaction().begin();
             em.createQuery("delete from Location l where l.id = :id").setParameter("id", locationId).executeUpdate();
             em.getTransaction().commit();
+
             log.info("Deleted location with id {}", locationId);
         } catch (PersistenceException e) {
             log.error("Error occurred during deletion of location: {} ", e.getMessage());

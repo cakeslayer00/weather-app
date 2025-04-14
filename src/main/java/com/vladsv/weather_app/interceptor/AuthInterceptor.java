@@ -22,39 +22,35 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AuthInterceptor implements HandlerInterceptor {
 
+    private static final String REQUEST_COOKIE_MISSING = "Cookie missing";
+    private static final String NO_SESSION_WITH_GIVEN_ID = "No session with provided id";
+    private static final String SESSION_EXPIRED = "Session expired";
+    private static final String INVALID_SESSION_UUID = "Invalid session UUID";
+
     private final SessionDao sessionDao;
 
     @Override
-    public boolean preHandle(HttpServletRequest request,
-                             HttpServletResponse response,
-                             Object handler) throws Exception {
-
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         try {
-            Cookie cookie = Objects.requireNonNull(WebUtils.getCookie(request, "SESSIONID"),
-                    "Cookie missing");
+            Cookie cookie = Objects.requireNonNull(WebUtils.getCookie(request, "SESSIONID"), REQUEST_COOKIE_MISSING);
 
             UUID id = UUID.fromString(cookie.getValue());
-            Session session = sessionDao.findById(id)
-                    .orElseThrow(() -> new InvalidSessionException("No session with provided id"));
+            Session session = sessionDao.findById(id).orElseThrow(() -> new InvalidSessionException(NO_SESSION_WITH_GIVEN_ID));
 
             if (session.getExpiryAt().isBefore(LocalDateTime.now())) {
-                throw new InvalidSessionException("Session expired");
+                throw new InvalidSessionException(SESSION_EXPIRED);
             }
         } catch (NullPointerException e) {
             throw new InvalidSessionException(e.getMessage());
         } catch (IllegalArgumentException e) {
-            throw new InvalidSessionException("Invalid session UUID");
+            throw new InvalidSessionException(INVALID_SESSION_UUID);
         }
 
         return HandlerInterceptor.super.preHandle(request, response, handler);
     }
 
     @Override
-    public void postHandle(HttpServletRequest request,
-                           HttpServletResponse response,
-                           Object handler,
-                           ModelAndView modelAndView) {
-
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
         String sessionId = Objects.requireNonNull(WebUtils.getCookie(request, "SESSIONID")).getValue();
         String[] uris = {"/", "/location"};
 
@@ -64,14 +60,5 @@ public class AuthInterceptor implements HandlerInterceptor {
 
             modelAndView.addObject("username", session.getUser().getUsername());
         }
-    }
-
-    @Override
-    public void afterCompletion(HttpServletRequest request,
-                                HttpServletResponse response,
-                                Object handler,
-                                Exception ex) throws Exception {
-
-        HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
     }
 }

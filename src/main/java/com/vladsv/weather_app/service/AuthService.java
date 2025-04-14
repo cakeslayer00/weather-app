@@ -22,6 +22,9 @@ import java.util.UUID;
 @Slf4j
 public class AuthService {
 
+    private static final String WRONG_CREDENTIALS = "Invalid username or password";
+    private static final String INVALID_USERNAME = "Invalid username";
+
     private static final int COOKIE_EXPIRY_TIME_IN_SECONDS = 3600;
     private static final int COOKIE_RESET_TIME_IN_SECONDS = 0;
     private static final int SESSION_EXPIRY_TIME_IN_SECONDS = 3600;
@@ -34,10 +37,10 @@ public class AuthService {
     public void authorize(UserDto userDto, HttpServletResponse response) {
 
         User user = userDao.findByUsername(userDto.getUsername())
-                .orElseThrow(() -> new InvalidCredentialsException("Invalid username"));
+                .orElseThrow(() -> new InvalidCredentialsException(INVALID_USERNAME));
 
         if (!isPasswordsIdentical(userDto, user)) {
-            throw new InvalidCredentialsException("Invalid username or password");
+            throw new InvalidCredentialsException(WRONG_CREDENTIALS);
         }
 
         Session session = obtainSessionByUser(user);

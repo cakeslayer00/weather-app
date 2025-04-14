@@ -18,14 +18,12 @@ public class TemplateConfig implements ApplicationContextAware {
     @Bean
     public SpringResourceTemplateResolver templateResolver() {
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
-
         templateResolver.setApplicationContext(this.ac);
         templateResolver.setPrefix("/WEB-INF/templates/");
         templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode(TemplateMode.HTML);
         templateResolver.setCacheable(true);
         templateResolver.setCharacterEncoding("UTF-8");
-
         return templateResolver;
     }
 
@@ -34,7 +32,6 @@ public class TemplateConfig implements ApplicationContextAware {
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.setTemplateResolver(templateResolver());
         templateEngine.setEnableSpringELCompiler(true);
-
         return templateEngine;
     }
 

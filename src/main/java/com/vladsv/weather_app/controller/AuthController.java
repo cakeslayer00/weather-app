@@ -1,7 +1,6 @@
 package com.vladsv.weather_app.controller;
 
 import com.vladsv.weather_app.dto.UserDto;
-import com.vladsv.weather_app.exception.InvalidCredentialsException;
 import com.vladsv.weather_app.service.AuthService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +28,6 @@ public class AuthController {
     public String auth(@RequestParam(value = "username") String username,
                        @RequestParam(value = "password") String password,
                        HttpServletResponse response) {
-
         authService.authorize(new UserDto(username,password), response);
 
         return "redirect:/";
@@ -38,13 +36,7 @@ public class AuthController {
     @PostMapping(value = "/reg")
     public String registration(@RequestParam(value = "username") String username,
                                @RequestParam(value = "password") String password,
-                               @RequestParam(value = "repeat-password") String repeatPassword,
                                HttpServletResponse response) {
-
-        if (!password.equals(repeatPassword)) {
-            throw new InvalidCredentialsException("Passwords do not match");
-        }
-
         authService.register(new UserDto(username,password), response);
 
         return "redirect:/";
@@ -53,7 +45,6 @@ public class AuthController {
     @PostMapping(value = "/logout")
     public String logout(@CookieValue(name = "SESSIONID") String sessionId,
                          HttpServletResponse response) {
-
         authService.logout(sessionId, response);
 
         return "redirect:/auth";

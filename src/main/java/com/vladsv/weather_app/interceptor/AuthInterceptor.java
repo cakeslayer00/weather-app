@@ -2,6 +2,7 @@ package com.vladsv.weather_app.interceptor;
 
 import com.vladsv.weather_app.dao.SessionDao;
 import com.vladsv.weather_app.entity.Session;
+import com.vladsv.weather_app.entity.User;
 import com.vladsv.weather_app.exception.InvalidSessionException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,7 +18,6 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.UUID;
 
-@SuppressWarnings("OptionalGetWithoutIsPresent")
 @Component
 @RequiredArgsConstructor
 public class AuthInterceptor implements HandlerInterceptor {
@@ -40,6 +40,7 @@ public class AuthInterceptor implements HandlerInterceptor {
             if (session.getExpiryAt().isBefore(LocalDateTime.now())) {
                 throw new InvalidSessionException(SESSION_EXPIRED);
             }
+            request.setAttribute("user", session.getUser());
         } catch (NullPointerException e) {
             throw new InvalidSessionException(e.getMessage());
         } catch (IllegalArgumentException e) {
@@ -51,14 +52,10 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
-        String sessionId = Objects.requireNonNull(WebUtils.getCookie(request, "SESSIONID")).getValue();
         String[] uris = {"/", "/location"};
 
         if (Arrays.asList(uris).contains(request.getRequestURI())) {
-
-            Session session = sessionDao.findById(UUID.fromString(sessionId)).get();
-
-            modelAndView.addObject("username", session.getUser().getUsername());
+            modelAndView.addObject("username", ((User)request.getAttribute("user")).getUsername());
         }
     }
 }

@@ -28,7 +28,7 @@ public class AuthController {
     public String auth(@RequestParam(value = "username") String username,
                        @RequestParam(value = "password") String password,
                        HttpServletResponse response) {
-        authService.authorize(new UserDto(username,password), response);
+        authService.authorize(new UserDto(username, password), response);
 
         return "redirect:/";
     }
@@ -37,13 +37,13 @@ public class AuthController {
     public String registration(@RequestParam(value = "username") String username,
                                @RequestParam(value = "password") String password,
                                HttpServletResponse response) {
-        authService.register(new UserDto(username,password), response);
+        authService.register(new UserDto(username, password), response);
 
         return "redirect:/";
     }
 
     @PostMapping(value = "/logout")
-    public String logout(@CookieValue(name = "SESSIONID") String sessionId,
+    public String logout(@CookieValue("SESSIONID") String sessionId,
                          HttpServletResponse response) {
         authService.logout(sessionId, response);
 

@@ -5,27 +5,23 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vladsv.weather_app.client.OpenWeatherApiClient;
 import com.vladsv.weather_app.dao.LocationDao;
-import com.vladsv.weather_app.dao.SessionDao;
 import com.vladsv.weather_app.dto.LocationDto;
 import com.vladsv.weather_app.dto.WeatherCardDto;
 import com.vladsv.weather_app.entity.Location;
-import com.vladsv.weather_app.entity.Session;
+import com.vladsv.weather_app.entity.User;
 import com.vladsv.weather_app.exception.json.JsonException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-@SuppressWarnings("OptionalGetWithoutIsPresent")
 public class WeatherService {
 
     private final ObjectMapper objectMapper;
     private final LocationDao locationDao;
-    private final SessionDao sessionDao;
     private final OpenWeatherApiClient client;
 
     public List<LocationDto> getLocationsByName(String locationName) {
@@ -55,10 +51,8 @@ public class WeatherService {
         }
     }
 
-    public void addLocation(String sessionId, String name, String latitude, String longitude) {
-        Session session = sessionDao.findById(UUID.fromString(sessionId)).get();
-
-        Location location = getBuiltLocation(name, latitude, longitude, session);
+    public void addLocation(User user, String name, String latitude, String longitude) {
+        Location location = getBuiltLocation(name, latitude, longitude, user);
 
         locationDao.persist(location);
     }
@@ -67,10 +61,10 @@ public class WeatherService {
         locationDao.delete(locationId);
     }
 
-    private Location getBuiltLocation(String name, String latitude, String longitude, Session session) {
+    private Location getBuiltLocation(String name, String latitude, String longitude, User user) {
         return Location.builder()
                 .name(name)
-                .user(session.getUser())
+                .user(user)
                 .latitude(BigDecimal.valueOf(Double.parseDouble(latitude)))
                 .longitude(BigDecimal.valueOf(Double.parseDouble(longitude)))
                 .build();

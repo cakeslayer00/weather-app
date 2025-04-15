@@ -65,7 +65,7 @@ public class AuthService {
 
     public void logout(String sessionId, HttpServletResponse response) {
         response.addCookie(generateResetCookie(sessionId));
-        log.info("User logged out for session id: {}", sessionId);
+        log.info("User logged out for entity: {}", sessionId);
     }
 
     private Session obtainSessionByUser(User user) {

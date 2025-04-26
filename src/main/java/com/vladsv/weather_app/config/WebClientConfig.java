@@ -1,9 +1,15 @@
 package com.vladsv.weather_app.config;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
 import org.springframework.http.client.reactive.ClientHttpConnector;
 import org.springframework.http.client.reactive.JdkClientHttpConnector;
+import org.springframework.http.codec.json.Jackson2JsonDecoder;
+import org.springframework.http.codec.json.Jackson2JsonEncoder;
+import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.net.http.HttpClient;
@@ -19,7 +25,21 @@ public class WebClientConfig {
         return WebClient.builder()
                 .clientConnector(getClientHttpConnector())
                 .baseUrl(BASE_URL)
+                .exchangeStrategies(ExchangeStrategies.builder()
+                        .codecs(configurer -> {
+                            configurer.defaultCodecs().jackson2JsonEncoder(
+                                    new Jackson2JsonEncoder(getObjectMapper(), MediaType.APPLICATION_JSON)
+                            );
+                            configurer.defaultCodecs().jackson2JsonDecoder(
+                                    new Jackson2JsonDecoder(getObjectMapper(), MediaType.APPLICATION_JSON)
+                            );
+                        })
+                        .build())
                 .build();
+    }
+
+    private ObjectMapper getObjectMapper() {
+        return new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     private ClientHttpConnector getClientHttpConnector() {

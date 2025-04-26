@@ -1,4 +1,4 @@
-# weather-app
+    # weather-app
 
 This pet-project provides an ability to look for weather in a certain location. Sole purpose is to learn Spring Framework, create app without sugary Spring Boot, but with Spring MVC where one set up everything by himself (e.g Beans). Application based on MVC pattern and lacks extended features as providing forecasts.
 

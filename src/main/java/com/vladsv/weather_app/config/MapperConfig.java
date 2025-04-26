@@ -2,9 +2,6 @@ package com.vladsv.weather_app.config;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import at.favre.lib.crypto.bcrypt.LongPasswordStrategies;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vladsv.weather_app.deserializer.WeatherCardDeserializer;
 import com.vladsv.weather_app.dto.UserDto;
 import com.vladsv.weather_app.entity.User;
 import org.modelmapper.Converter;
@@ -31,16 +28,6 @@ public class MapperConfig {
         );
 
         return modelMapper;
-    }
-
-    @Bean
-    public ObjectMapper getObjectMapper() {
-        return new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    }
-
-    @Bean
-    public WeatherCardDeserializer getWeatherCardDeserializer() {
-        return new WeatherCardDeserializer();
     }
 
 }

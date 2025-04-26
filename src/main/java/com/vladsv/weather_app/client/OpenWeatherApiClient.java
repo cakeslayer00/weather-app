@@ -1,7 +1,10 @@
 package com.vladsv.weather_app.client;
 
+import com.vladsv.weather_app.dto.LocationDto;
+import com.vladsv.weather_app.dto.WeatherCardDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -9,6 +12,7 @@ import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -24,7 +28,7 @@ public class OpenWeatherApiClient {
     @Value("${openweather.api}")
     private String apiKey;
 
-    public String getLocationsByNameInJson(String location) {
+    public List<LocationDto> getLocationsByNameInJson(String location) {
         return webClient.get()
                 .uri(
                         uriBuilder -> uriBuilder
@@ -39,11 +43,11 @@ public class OpenWeatherApiClient {
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, ClientResponse::createException)
                 .onStatus(HttpStatusCode::is5xxServerError, ClientResponse::createException)
-                .bodyToMono(String.class)
+                .bodyToMono(new ParameterizedTypeReference<List<LocationDto>>() {})
                 .block();
     }
 
-    public String getWeatherByGeoCoordinatesInJson(String lat, String lon) {
+    public WeatherCardDto getWeatherByGeoCoordinatesInJson(String lat, String lon) {
         return webClient.get()
                 .uri(
                         uriBuilder -> uriBuilder
@@ -59,7 +63,7 @@ public class OpenWeatherApiClient {
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, ClientResponse::createException)
                 .onStatus(HttpStatusCode::is5xxServerError, ClientResponse::createException)
-                .bodyToMono(String.class)
+                .bodyToMono(WeatherCardDto.class)
                 .block();
     }
 

@@ -7,9 +7,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.vladsv.weather_app.dto.WeatherCardDto;
 import com.vladsv.weather_app.exception.json.WeatherCardDeserializationException;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+@Component
 public class WeatherCardDeserializer extends StdDeserializer<WeatherCardDto> {
 
     private static final String ICON_URL_FORMAT = "https://openweathermap.org/img/wn/%s@4x.png";

@@ -1,51 +1,43 @@
 package com.vladsv.weather_app.config;
 
-import com.vladsv.weather_app.dao.SessionDao;
 import com.vladsv.weather_app.interceptor.AuthInterceptor;
+import lombok.RequiredArgsConstructor;
 import org.flywaydb.core.Flyway;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.*;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 @Profile("dev")
-@EnableWebMvc
 @Configuration
 @ComponentScan(basePackages = {"com.vladsv.weather_app"})
 @PropertySource("classpath:application.properties")
+@RequiredArgsConstructor
 @Import({PersistenceConfig.class,
         TemplateConfig.class,
         WebClientConfig.class,
         MapperConfig.class})
-public class WebApplicationConfig implements ApplicationContextAware, WebMvcConfigurer {
+public class WebApplicationConfig extends WebMvcConfigurationSupport {
 
-    private ApplicationContext ac;
+    private final AuthInterceptor authInterceptor;
 
     @Bean
-    public Flyway flyway() {
-        Flyway flyway = Flyway.configure().dataSource(ac.getBean(PersistenceConfig.class).dataSource()).load();
+    public Flyway flyway(PersistenceConfig config) {
+        Flyway flyway = Flyway.configure().dataSource(config.dataSource()).load();
         flyway.migrate();
         return flyway;
     }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new AuthInterceptor(ac.getBean(SessionDao.class)))
+        registry.addInterceptor(authInterceptor)
                 .excludePathPatterns("/auth/**", "/static/**");
     }
 
     @Override
-    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/images/**").addResourceLocations("/static/images/");
         registry.addResourceHandler("/static/css/**").addResourceLocations("/static/css/");
     }
 
-    @Override
-    public void setApplicationContext(ApplicationContext ac) throws BeansException {
-        this.ac = ac;
-    }
 }

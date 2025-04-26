@@ -2,7 +2,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vladsv.weather_app.client.OpenWeatherApiClient;
-import com.vladsv.weather_app.dto.LocationDto;
+import com.vladsv.weather_app.dto.LocationResponseDto;
 import com.vladsv.weather_app.entity.Location;
 import com.vladsv.weather_app.entity.User;
 import com.vladsv.weather_app.service.WeatherService;
@@ -52,8 +52,8 @@ public class WebClientAndWeatherServiceInteractionTest {
 
         String jsonResponse = "[{\"name\": \"San Francisco\",\"lat\": 5.26902235,\"lon\": -72.77388372073908,\"country\": \"CO\",\"state\": \"Casanare\"}]";
 
-        List<LocationDto> locations = List.of(
-                new LocationDto("San Francisco",
+        List<LocationResponseDto> locations = List.of(
+                new LocationResponseDto("San Francisco",
                         new BigDecimal("5.26902235"),
                         new BigDecimal("-72.77388372073908"),
                         "CO",

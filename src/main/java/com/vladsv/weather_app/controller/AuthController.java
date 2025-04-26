@@ -15,29 +15,27 @@ public class AuthController {
     private final AuthService authService;
 
     @GetMapping
-    public String auth() {
+    public String authorization() {
         return "sign-in";
     }
 
     @GetMapping("/reg")
-    public String reg() {
+    public String registration() {
         return "sign-up";
     }
 
     @PostMapping
-    public String auth(@RequestParam(value = "username") String username,
-                       @RequestParam(value = "password") String password,
-                       HttpServletResponse response) {
-        authService.authorize(new UserDto(username, password), response);
+    public String authorization(@ModelAttribute UserDto userDto,
+                                HttpServletResponse response) {
+        authService.authorize(userDto, response);
 
         return "redirect:/";
     }
 
     @PostMapping(value = "/reg")
-    public String registration(@RequestParam(value = "username") String username,
-                               @RequestParam(value = "password") String password,
+    public String registration(@ModelAttribute UserDto userDto,
                                HttpServletResponse response) {
-        authService.register(new UserDto(username, password), response);
+        authService.register(userDto, response);
 
         return "redirect:/";
     }
@@ -49,4 +47,5 @@ public class AuthController {
 
         return "redirect:/auth";
     }
+
 }

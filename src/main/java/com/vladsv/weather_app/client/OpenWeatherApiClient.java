@@ -1,6 +1,6 @@
 package com.vladsv.weather_app.client;
 
-import com.vladsv.weather_app.dto.LocationDto;
+import com.vladsv.weather_app.dto.LocationResponseDto;
 import com.vladsv.weather_app.dto.WeatherCardDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,7 +28,7 @@ public class OpenWeatherApiClient {
     @Value("${openweather.api}")
     private String apiKey;
 
-    public List<LocationDto> getLocationsByNameInJson(String location) {
+    public List<LocationResponseDto> getLocationsByNameInJson(String location) {
         return webClient.get()
                 .uri(
                         uriBuilder -> uriBuilder
@@ -43,7 +43,7 @@ public class OpenWeatherApiClient {
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, ClientResponse::createException)
                 .onStatus(HttpStatusCode::is5xxServerError, ClientResponse::createException)
-                .bodyToMono(new ParameterizedTypeReference<List<LocationDto>>() {})
+                .bodyToMono(new ParameterizedTypeReference<List<LocationResponseDto>>() {})
                 .block();
     }
 

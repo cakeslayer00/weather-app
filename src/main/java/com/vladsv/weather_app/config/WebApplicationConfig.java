@@ -8,6 +8,8 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
+import javax.sql.DataSource;
+
 @Profile("dev")
 @Configuration
 @ComponentScan(basePackages = {"com.vladsv.weather_app"})
@@ -22,8 +24,8 @@ public class WebApplicationConfig extends WebMvcConfigurationSupport {
     private final AuthInterceptor authInterceptor;
 
     @Bean
-    public Flyway flyway(PersistenceConfig config) {
-        Flyway flyway = Flyway.configure().dataSource(config.dataSource()).load();
+    public Flyway flyway(DataSource dataSource) {
+        Flyway flyway = Flyway.configure().dataSource(dataSource).load();
         flyway.migrate();
         return flyway;
     }

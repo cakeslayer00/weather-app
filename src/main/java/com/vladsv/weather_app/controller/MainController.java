@@ -5,10 +5,10 @@ import com.vladsv.weather_app.dto.WeatherCardDto;
 import com.vladsv.weather_app.entity.Location;
 import com.vladsv.weather_app.entity.User;
 import com.vladsv.weather_app.service.WeatherService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -24,9 +24,7 @@ public class MainController {
     private final LocationDao locationDao;
 
     @GetMapping
-    public ModelAndView index(HttpServletRequest request) {
-        User user = (User) request.getAttribute("user");
-
+    public ModelAndView index(@RequestAttribute("user") User user) {
         List<Location> locations = locationDao.findAllByUser(user);
         List<WeatherCardDto> weatherCards = locations.stream().map(weatherService::mapLocationToWeatherCardDto).toList();
 

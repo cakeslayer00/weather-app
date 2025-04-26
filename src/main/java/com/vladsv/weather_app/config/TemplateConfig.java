@@ -44,7 +44,7 @@ public class TemplateConfig implements ApplicationContextAware {
     }
 
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.ac = applicationContext;
+    public void setApplicationContext(ApplicationContext ac) throws BeansException {
+        this.ac = ac;
     }
 }

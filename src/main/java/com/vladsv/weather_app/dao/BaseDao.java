@@ -1,9 +1,9 @@
 
 package com.vladsv.weather_app.dao;
 
-import com.vladsv.weather_app.exception.sql.POJOObtainingException;
-import com.vladsv.weather_app.exception.sql.POJOPersistenceException;
-import com.vladsv.weather_app.exception.sql.POJOUpdatingException;
+import com.vladsv.weather_app.exception.sql.EntityObtainingException;
+import com.vladsv.weather_app.exception.sql.EntityPersistenceException;
+import com.vladsv.weather_app.exception.sql.EntityUpdatingException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceException;
@@ -32,7 +32,7 @@ public abstract class BaseDao<I extends Serializable, T> implements CrudDao<I, T
             log.info("Persisted entity: {}", entity);
         } catch (PersistenceException e) {
             log.error("Error persisting entity: {}", entity, e);
-            throw new POJOPersistenceException(e.getMessage());
+            throw new EntityPersistenceException(e.getMessage());
         }
     }
 
@@ -47,7 +47,7 @@ public abstract class BaseDao<I extends Serializable, T> implements CrudDao<I, T
             return entity;
         } catch (PersistenceException e) {
             log.info("Error during obtaining entity with id: {}", id, e);
-            throw new POJOObtainingException(e.getMessage());
+            throw new EntityObtainingException(e.getMessage());
         }
     }
 
@@ -61,7 +61,7 @@ public abstract class BaseDao<I extends Serializable, T> implements CrudDao<I, T
             log.info("Updated entity: {}", entity);
         } catch (PersistenceException e) {
             log.error("Error updating entity: {}", entity, e);
-            throw new POJOUpdatingException(e.getMessage());
+            throw new EntityUpdatingException(e.getMessage());
         }
     }
 

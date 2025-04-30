@@ -1,7 +1,7 @@
 package com.vladsv.weather_app.dao;
 
 import com.vladsv.weather_app.entity.User;
-import com.vladsv.weather_app.exception.sql.POJOObtainingException;
+import com.vladsv.weather_app.exception.sql.EntityObtainingException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceException;
@@ -34,7 +34,7 @@ public class UserDao extends BaseDao<Long, User> {
             return user;
         } catch (PersistenceException e) {
             log.error("Error occurred during search for user: {} ", e.getMessage());
-            throw new POJOObtainingException(e.getMessage());
+            throw new EntityObtainingException(e.getMessage());
         }
     }
 }

@@ -3,7 +3,6 @@ package com.vladsv.weather_app.handler;
 import com.vladsv.weather_app.exception.InvalidCredentialsException;
 import com.vladsv.weather_app.exception.InvalidSessionException;
 import com.vladsv.weather_app.exception.json.JsonException;
-import com.vladsv.weather_app.exception.sql.POJOPersistenceException;
 import com.vladsv.weather_app.exception.sql.SQLException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -55,20 +54,20 @@ public class GlobalControllerExceptionHandler {
         return mav.addObject("error", e.getMessage());
     }
 
-    @ExceptionHandler(POJOPersistenceException.class)
-    public ModelAndView duringRegistrationCredentialsError(POJOPersistenceException e) {
-        ModelAndView mav = new ModelAndView("sign-up");
-
-        if (e.getMessage().contains("Password does not match")) {
-            return mav.addObject("error", e.getMessage());
-        }
-
-        if (e.getMessage().contains("already exists")) {
-            return mav.addObject("error", ACCOUNT_ALREADY_EXISTS_MESSAGE);
-        }
-
-        mav.setViewName("error");
-        return mav.addObject("message", e.getMessage());
-    }
+//    @ExceptionHandler(EntityPersistenceException.class)
+//    public ModelAndView duringRegistrationCredentialsError(EntityPersistenceException e) {
+//        ModelAndView mav = new ModelAndView("sign-up");
+//
+//        if (e.getMessage().contains("Password does not match")) {
+//            return mav.addObject("error", e.getMessage());
+//        }
+//
+//        if (e.getMessage().contains("already exists")) {
+//            return mav.addObject("error", ACCOUNT_ALREADY_EXISTS_MESSAGE);
+//        }
+//
+//        mav.setViewName("error");
+//        return mav.addObject("message", e.getMessage());
+//    }
 
 }

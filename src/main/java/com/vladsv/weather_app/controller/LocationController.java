@@ -34,8 +34,8 @@ public class LocationController {
     }
 
     @PostMapping("/delete")
-    public String deleteLocation(@ModelAttribute String locationId) {
-        weatherService.deleteLocation(Long.valueOf(locationId));
+    public String deleteLocation(@RequestParam(name = "locationId") Long locationId ) {
+        weatherService.deleteLocation(locationId);
         return "redirect:/";
     }
 

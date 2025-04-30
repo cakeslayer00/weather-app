@@ -4,6 +4,7 @@ import com.vladsv.weather_app.interceptor.AuthInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.flywaydb.core.Flyway;
 import org.springframework.context.annotation.*;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
@@ -15,6 +16,7 @@ import javax.sql.DataSource;
 @ComponentScan(basePackages = {"com.vladsv.weather_app"})
 @PropertySource("classpath:application.properties")
 @RequiredArgsConstructor
+@EnableScheduling
 @Import({PersistenceConfig.class,
         TemplateConfig.class,
         WebClientConfig.class,

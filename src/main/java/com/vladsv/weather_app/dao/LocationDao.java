@@ -2,8 +2,8 @@ package com.vladsv.weather_app.dao;
 
 import com.vladsv.weather_app.entity.Location;
 import com.vladsv.weather_app.entity.User;
-import com.vladsv.weather_app.exception.sql.POJODeletionException;
-import com.vladsv.weather_app.exception.sql.POJOObtainingException;
+import com.vladsv.weather_app.exception.sql.EntityDeletionException;
+import com.vladsv.weather_app.exception.sql.EntityObtainingException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceException;
@@ -36,7 +36,7 @@ public class LocationDao extends BaseDao<Long, Location> {
             return locations;
         } catch (PersistenceException e) {
             log.error("Error occurred during search for all locations by user: {} ", e.getMessage());
-            throw new POJOObtainingException(e.getMessage());
+            throw new EntityObtainingException(e.getMessage());
         }
     }
 
@@ -49,7 +49,7 @@ public class LocationDao extends BaseDao<Long, Location> {
             log.info("Deleted location with id {}", locationId);
         } catch (PersistenceException e) {
             log.error("Error occurred during deletion of location: {} ", e.getMessage());
-            throw new POJODeletionException(e.getMessage());
+            throw new EntityDeletionException(e.getMessage());
         }
     }
 }

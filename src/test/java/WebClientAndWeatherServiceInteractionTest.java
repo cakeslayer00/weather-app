@@ -60,7 +60,7 @@ public class WebClientAndWeatherServiceInteractionTest {
                         "Casanare"));
 
         try {
-            //when(openWeatherApiClient.getLocationsByNameInJson(locationName)).thenReturn(jsonResponse);
+            when(openWeatherApiClient.getLocationsByNameInJson(locationName)).thenReturn(locations);
             when(objectMapper.readValue(eq(jsonResponse), any(TypeReference.class))).thenReturn(locations);
 
             assertEquals(locations.getFirst(), weatherService.getLocationsByName(locationName).getFirst());

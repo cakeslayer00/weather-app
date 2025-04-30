@@ -2,9 +2,9 @@ services:
   db:
     image: postgres:17
     environment:
-      POSTGRES_DB: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
@@ -18,11 +18,11 @@ services:
     build: .
     environment:
       SPRING_PROFILES_ACTIVE: dev
-      DB_USERNAME: postgres
-      DB_PASSWORD: password
-      DB_URL: jdbc:postgresql://db:5432/postgres
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_URL: jdbc:postgresql://db:5432/${DB_NAME}
       DB_DRIVER: org.postgresql.Driver
-      OPENWEATHER_API: 7fc689b71c81bd1a2c74384cd158bdce
+      OPENWEATHER_API: ${OPENWEATHER_API}
     depends_on:
       - db
     networks:

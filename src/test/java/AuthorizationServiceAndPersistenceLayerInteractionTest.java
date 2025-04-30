@@ -1,9 +1,9 @@
 import com.vladsv.weather_app.dao.SessionDao;
 import com.vladsv.weather_app.dao.UserDao;
-import com.vladsv.weather_app.dto.UserDto;
+import com.vladsv.weather_app.dto.UserRequestDto;
 import com.vladsv.weather_app.entity.Session;
 import com.vladsv.weather_app.entity.User;
-import com.vladsv.weather_app.exception.sql.POJOPersistenceException;
+import com.vladsv.weather_app.exception.sql.EntityPersistenceException;
 import com.vladsv.weather_app.service.AuthService;
 import config.TestConfig;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,7 +39,7 @@ public class AuthorizationServiceAndPersistenceLayerInteractionTest {
     @Test
     @SuppressWarnings("OptionalGetWithoutIsPresent")
     public void givenAuthService_whenRegistrationMethodInvoked_thenNewUserAdded() {
-        UserDto dto = new UserDto("testusername", "1234asdf");
+        UserRequestDto dto = new UserRequestDto("testusername", "1234asdf");
 
         assertDoesNotThrow(() -> authService.register(dto, response));
         User user = userDao.findByUsername(dto.getUsername()).get();
@@ -51,9 +51,9 @@ public class AuthorizationServiceAndPersistenceLayerInteractionTest {
     @Test
     @AfterTestMethod
     public void givenExistingUser_whenRegisteringNewUserWithSameName_thenExceptionThrown() {
-        UserDto dto = new UserDto("testusername", "1234asdf");
+        UserRequestDto dto = new UserRequestDto("testusername", "1234asdf");
 
-        assertThrows(POJOPersistenceException.class,
+        assertThrows(EntityPersistenceException.class,
                 () -> authService.register(dto, response));
     }
 
@@ -61,7 +61,7 @@ public class AuthorizationServiceAndPersistenceLayerInteractionTest {
     @AfterTestMethod
     @SuppressWarnings("OptionalGetWithoutIsPresent")
     public void givenExistingUser_whenAuthorizationIfSessionExpired_thenSessionExpiryTimeUpdated() {
-        UserDto dto = new UserDto("testusername", "1234asdf");
+        UserRequestDto dto = new UserRequestDto("testusername", "1234asdf");
 
         User user = userDao.findByUsername(dto.getUsername()).get();
         Session before = sessionDao.findSessionByUser(user).get();

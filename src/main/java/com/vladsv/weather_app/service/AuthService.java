@@ -3,7 +3,7 @@ package com.vladsv.weather_app.service;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.vladsv.weather_app.dao.SessionDao;
 import com.vladsv.weather_app.dao.UserDao;
-import com.vladsv.weather_app.dto.UserDto;
+import com.vladsv.weather_app.dto.UserRequestDto;
 import com.vladsv.weather_app.entity.Session;
 import com.vladsv.weather_app.entity.User;
 import com.vladsv.weather_app.exception.InvalidCredentialsException;
@@ -15,7 +15,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -34,47 +33,36 @@ public class AuthService {
 
     private final ModelMapper modelMapper;
 
-    public void authorize(UserDto userDto, HttpServletResponse response) {
-
-        User user = userDao.findByUsername(userDto.getUsername())
+    public void authorize(UserRequestDto userRequestDto, HttpServletResponse response) {
+        User user = userDao.findByUsername(userRequestDto.getUsername())
                 .orElseThrow(() -> new InvalidCredentialsException(INVALID_USERNAME));
 
-        if (!isPasswordsIdentical(userDto, user)) {
+        if (!isPasswordsIdentical(userRequestDto, user)) {
             throw new InvalidCredentialsException(WRONG_CREDENTIALS);
         }
+        Session session = getBuiltSession(user);
 
-        Session session = obtainSessionByUser(user);
-        sessionDao.update(session);
+        sessionDao.persist(session);
 
-        response.addCookie(generateResetCookie(session.getId().toString()));
-        response.addCookie(generateCookie(session.getId().toString()));
+        applyCookies(response, session);
         log.info("Authorization complete for user: {}", user);
     }
 
-    public void register(UserDto userDto, HttpServletResponse response) {
-        User user = modelMapper.map(userDto, User.class);
+
+    public void register(UserRequestDto userRequestDto, HttpServletResponse response) {
+        User user = modelMapper.map(userRequestDto, User.class);
         Session session = getBuiltSession(user);
 
         userDao.persist(user);
         sessionDao.persist(session);
 
-        response.addCookie(generateResetCookie(session.getId().toString()));
-        response.addCookie(generateCookie(session.getId().toString()));
+        applyCookies(response, session);
         log.info("Registration complete for user: {}", user);
     }
 
     public void logout(String sessionId, HttpServletResponse response) {
         response.addCookie(generateResetCookie(sessionId));
         log.info("User logged out for entity: {}", sessionId);
-    }
-
-    private Session obtainSessionByUser(User user) {
-        return sessionDao.findSessionByUser(user)
-                .map(this::obtainIfExpired)
-                .orElseGet(() -> new Session(
-                        UUID.randomUUID(),
-                        LocalDateTime.now().plusSeconds(SESSION_EXPIRY_TIME_IN_SECONDS),
-                        user));
     }
 
     private Cookie generateResetCookie(String sessionId) {
@@ -91,23 +79,20 @@ public class AuthService {
         return cookie;
     }
 
-    private Session obtainIfExpired(Session session) {
-        if (session.getExpiryAt().isBefore(LocalDateTime.now())) {
-            session.setExpiryAt(LocalDateTime.now().plusSeconds(SESSION_EXPIRY_TIME_IN_SECONDS));
-            sessionDao.update(session);
-        }
-        return session;
-    }
-
     private Session getBuiltSession(User user) {
-        return new Session(
-                UUID.randomUUID(),
-                LocalDateTime.now().plusSeconds(SESSION_EXPIRY_TIME_IN_SECONDS),
-                user);
+        return Session.builder()
+                .user(user)
+                .expiryAt(LocalDateTime.now().plusSeconds(SESSION_EXPIRY_TIME_IN_SECONDS))
+                .build();
     }
 
-    private boolean isPasswordsIdentical(UserDto userDto, User user) {
-        return BCrypt.verifyer().verify(userDto.getPassword().toCharArray(), user.getPassword().toCharArray()).verified;
+    private boolean isPasswordsIdentical(UserRequestDto userRequestDto, User user) {
+        return BCrypt.verifyer().verify(userRequestDto.getPassword().toCharArray(), user.getPassword().toCharArray()).verified;
+    }
+
+    private void applyCookies(HttpServletResponse response, Session session) {
+        response.addCookie(generateResetCookie(session.getId().toString()));
+        response.addCookie(generateCookie(session.getId().toString()));
     }
 
 }

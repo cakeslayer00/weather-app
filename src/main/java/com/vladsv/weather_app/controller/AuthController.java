@@ -1,6 +1,6 @@
 package com.vladsv.weather_app.controller;
 
-import com.vladsv.weather_app.dto.UserDto;
+import com.vladsv.weather_app.dto.UserRequestDto;
 import com.vladsv.weather_app.service.AuthService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -25,17 +25,17 @@ public class AuthController {
     }
 
     @PostMapping
-    public String authorization(@ModelAttribute UserDto userDto,
+    public String authorization(@ModelAttribute UserRequestDto userRequestDto,
                                 HttpServletResponse response) {
-        authService.authorize(userDto, response);
+        authService.authorize(userRequestDto, response);
 
         return "redirect:/";
     }
 
     @PostMapping(value = "/reg")
-    public String registration(@ModelAttribute UserDto userDto,
+    public String registration(@ModelAttribute UserRequestDto userRequestDto,
                                HttpServletResponse response) {
-        authService.register(userDto, response);
+        authService.register(userRequestDto, response);
 
         return "redirect:/";
     }

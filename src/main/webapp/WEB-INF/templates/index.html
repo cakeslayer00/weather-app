@@ -52,7 +52,7 @@
                         <div class="card-body d-flex flex-column">
 
                             <h1 class="card-text"><span th:text="${weatherCard.temperature}">Unknown</span>°C</h1>
-                            <h3 class="card-title"><span th:text="${weatherCard.location}">Unknown</span></h3>
+                            <h3 class="card-title"><span th:text="${weatherCard.location + ', ' + weatherCard.country}">Unknown</span></h3>
                             <p class="card-text mb-1">Feels like <span th:text="${weatherCard.feelsLikeTemperature}">0</span>°C.
                                 <span th:text="${weatherCard.weather}">Unknown</span>
                             </p>

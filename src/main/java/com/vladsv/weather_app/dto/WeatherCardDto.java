@@ -16,10 +16,11 @@ public class WeatherCardDto {
 
     private Long id;
     private String weather;
-    private String location;
+    private String country;
     private String temperature;
     private String feelsLikeTemperature;
     private String humidity;
     private String iconUrl;
+    private String location;
 
 }

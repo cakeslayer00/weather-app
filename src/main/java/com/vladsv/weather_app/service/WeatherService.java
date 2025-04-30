@@ -30,9 +30,8 @@ public class WeatherService {
                 location.getLatitude().toString(),
                 location.getLongitude().toString()
         );
-        weatherCardDto.setLocation(
-                String.format("%s,%s", location.getName(), weatherCardDto.getLocation().split(",")[1]));
         weatherCardDto.setId(location.getId());
+        weatherCardDto.setLocation(location.getName());
         return weatherCardDto;
     }
 

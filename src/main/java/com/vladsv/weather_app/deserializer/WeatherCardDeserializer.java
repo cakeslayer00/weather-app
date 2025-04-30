@@ -31,14 +31,14 @@ public class WeatherCardDeserializer extends StdDeserializer<WeatherCardDto> {
             JsonNode node = oc.readTree(jsonParser);
 
             String weather = node.get("weather").findValue("main").asText();
-            String location = String.format("%s, %s", node.get("name").asText(), node.get("sys").get("country").asText());
+            String country = node.get("sys").get("country").asText();
             String temperature = String.valueOf(node.get("main").get("temp").asInt());
             String feelsLike = String.valueOf(node.get("main").get("feels_like").asInt());
             String humidity = node.get("main").get("humidity").asText();
             String iconValue = node.get("weather").findValue("icon").asText();
             String iconUrl = String.format(ICON_URL_FORMAT, iconValue) ;
 
-            return new WeatherCardDto(null, weather, location, temperature, feelsLike, humidity, iconUrl);
+            return new WeatherCardDto(null, weather, country, temperature, feelsLike, humidity, iconUrl, null);
 
         } catch (IOException e) {
             throw new WeatherCardDeserializationException(e.getMessage());

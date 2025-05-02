@@ -1,6 +1,7 @@
 
 package com.vladsv.weather_app.dao;
 
+import com.vladsv.weather_app.exception.sql.EntityAlreadyExistsException;
 import com.vladsv.weather_app.exception.sql.EntityObtainingException;
 import com.vladsv.weather_app.exception.sql.EntityPersistenceException;
 import com.vladsv.weather_app.exception.sql.EntityUpdatingException;
@@ -32,6 +33,9 @@ public abstract class BaseDao<I extends Serializable, T> implements CrudDao<I, T
             log.info("Persisted entity: {}", entity);
         } catch (PersistenceException e) {
             log.error("Error persisting entity: {}", entity, e);
+            if (e.getMessage().contains("already exists")) {
+                throw new EntityAlreadyExistsException(e.getMessage());
+            }
             throw new EntityPersistenceException(e.getMessage());
         }
     }

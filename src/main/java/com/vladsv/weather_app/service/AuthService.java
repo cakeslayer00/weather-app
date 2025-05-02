@@ -7,6 +7,10 @@ import com.vladsv.weather_app.dto.UserRequestDto;
 import com.vladsv.weather_app.entity.Session;
 import com.vladsv.weather_app.entity.User;
 import com.vladsv.weather_app.exception.InvalidCredentialsException;
+import com.vladsv.weather_app.exception.InvalidPasswordCredentials;
+import com.vladsv.weather_app.exception.NonMatchingPasswordsException;
+import com.vladsv.weather_app.exception.UserAlreadyExistsException;
+import com.vladsv.weather_app.exception.sql.EntityAlreadyExistsException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +27,7 @@ public class AuthService {
 
     private static final String WRONG_CREDENTIALS = "Invalid username or password";
     private static final String INVALID_USERNAME = "Invalid username";
+    private static final String USER_ALREADY_EXISTS = "User with current name already exists";
 
     private static final int COOKIE_EXPIRY_TIME_IN_SECONDS = 3600;
     private static final int COOKIE_RESET_TIME_IN_SECONDS = 0;
@@ -38,7 +43,7 @@ public class AuthService {
                 .orElseThrow(() -> new InvalidCredentialsException(INVALID_USERNAME));
 
         if (!isPasswordsIdentical(userRequestDto, user)) {
-            throw new InvalidCredentialsException(WRONG_CREDENTIALS);
+            throw new InvalidPasswordCredentials(WRONG_CREDENTIALS);
         }
         Session session = getBuiltSession(user);
 
@@ -48,16 +53,23 @@ public class AuthService {
         log.info("Authorization complete for user: {}", user);
     }
 
-
     public void register(UserRequestDto userRequestDto, HttpServletResponse response) {
-        User user = modelMapper.map(userRequestDto, User.class);
-        Session session = getBuiltSession(user);
+        try {
+            if (!userRequestDto.getPassword().equals(userRequestDto.getConfirmPassword())) {
+                 throw new NonMatchingPasswordsException("Password do not match");
+            }
 
-        userDao.persist(user);
-        sessionDao.persist(session);
+            User user = modelMapper.map(userRequestDto, User.class);
+            Session session = getBuiltSession(user);
 
-        applyCookies(response, session);
-        log.info("Registration complete for user: {}", user);
+            userDao.persist(user);
+            sessionDao.persist(session);
+
+            applyCookies(response, session);
+            log.info("Registration complete for user: {}", user);
+        } catch (EntityAlreadyExistsException e) {
+            throw new UserAlreadyExistsException(USER_ALREADY_EXISTS);
+        }
     }
 
     public void logout(String sessionId, HttpServletResponse response) {

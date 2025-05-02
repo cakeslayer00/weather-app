@@ -18,9 +18,9 @@
     <h2 class="text-center mb-5">Sign Up</h2>
 
     <div class="row justify-content-center">
-        <div th:if="${error == 'Unknown persistence error'}" class="col-12 col-lg-4 col-md-6 col-sm-12">
+        <div th:if="${bannerError != null}" class="col-12 col-lg-4 col-md-6 col-sm-12">
             <div class="alert alert-danger" role="alert">
-                <label th:text="${error}"></label>
+                <label th:text="${bannerError}"></label>
             </div>
         </div>
     </div>
@@ -29,11 +29,11 @@
         <div class="col-12 col-lg-4 col-md-6 col-sm-12">
             <form th:action="@{/auth/reg}" th:method="post" class="mt-4">
                 <div class="mb-3">
-                    <div th:if="${error == null or error == 'Unknown persistence error'}">
+                    <div th:if="${error == null}">
                         <label for="username" class="form-label">Username</label>
                         <input type="text" class="form-control" id="username" name="username" required value=""/>
                     </div>
-                    <div th:unless="${error == null or error == 'Unknown persistence error'}" class="has-validation">
+                    <div th:unless="${error == null}" class="has-validation">
                         <label for="username-error" class="form-label">Username</label>
                         <input type="text" class="form-control is-invalid" id="username-error" name="username" required value=""/>
                         <div class="invalid-feedback">
@@ -46,8 +46,8 @@
                     <input type="password" class="form-control" id="password" name="password" required value=""/>
                 </div>
                 <div class="mb-3">
-                    <label for="repeat-password" class="form-label">Repeat password</label>
-                    <input type="password" class="form-control" id="repeat-password" name="repeat-password" required value=""/>
+                    <label for="confirmPassword" class="form-label">Repeat password</label>
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required value=""/>
                 </div>
 
                 <button type="submit" class="btn btn-primary w-100 mt-3">Sign Up</button>

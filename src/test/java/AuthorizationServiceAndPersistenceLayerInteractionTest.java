@@ -37,9 +37,8 @@ public class AuthorizationServiceAndPersistenceLayerInteractionTest {
     }
 
     @Test
-    @SuppressWarnings("OptionalGetWithoutIsPresent")
     public void givenAuthService_whenRegistrationMethodInvoked_thenNewUserAdded() {
-        UserRequestDto dto = new UserRequestDto("testusername", "1234asdf");
+        UserRequestDto dto = new UserRequestDto("testusername", "1234asdf", "1234asdf");
 
         assertDoesNotThrow(() -> authService.register(dto, response));
         User user = userDao.findByUsername(dto.getUsername()).get();
@@ -51,7 +50,7 @@ public class AuthorizationServiceAndPersistenceLayerInteractionTest {
     @Test
     @AfterTestMethod
     public void givenExistingUser_whenRegisteringNewUserWithSameName_thenExceptionThrown() {
-        UserRequestDto dto = new UserRequestDto("testusername", "1234asdf");
+        UserRequestDto dto = new UserRequestDto("testusername", "1234asdf", "1234asdf");
 
         assertThrows(EntityPersistenceException.class,
                 () -> authService.register(dto, response));
@@ -59,9 +58,8 @@ public class AuthorizationServiceAndPersistenceLayerInteractionTest {
 
     @Test
     @AfterTestMethod
-    @SuppressWarnings("OptionalGetWithoutIsPresent")
     public void givenExistingUser_whenAuthorizationIfSessionExpired_thenSessionExpiryTimeUpdated() {
-        UserRequestDto dto = new UserRequestDto("testusername", "1234asdf");
+        UserRequestDto dto = new UserRequestDto("testusername", "1234asdf", "1234asdf");
 
         User user = userDao.findByUsername(dto.getUsername()).get();
         Session before = sessionDao.findSessionByUser(user).get();

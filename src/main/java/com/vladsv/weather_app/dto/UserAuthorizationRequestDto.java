@@ -1,5 +1,6 @@
 package com.vladsv.weather_app.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,10 +10,11 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserRequestDto {
+public class UserAuthorizationRequestDto {
 
+    @NotBlank(message = "Must not be blank!")
     private String username;
+    @NotBlank(message = "Must not be blank!")
     private String password;
-    private String confirmPassword;
 
 }

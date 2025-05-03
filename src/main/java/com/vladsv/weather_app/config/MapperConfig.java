@@ -2,7 +2,7 @@ package com.vladsv.weather_app.config;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import at.favre.lib.crypto.bcrypt.LongPasswordStrategies;
-import com.vladsv.weather_app.dto.UserRequestDto;
+import com.vladsv.weather_app.dto.UserRegistrationRequestDto;
 import com.vladsv.weather_app.entity.User;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
@@ -17,14 +17,14 @@ public class MapperConfig {
     public ModelMapper getModelMapper() {
         ModelMapper modelMapper = new ModelMapper();
 
-        TypeMap<UserRequestDto, User> typeMap = modelMapper.createTypeMap(UserRequestDto.class, User.class);
+        TypeMap<UserRegistrationRequestDto, User> typeMap = modelMapper.createTypeMap(UserRegistrationRequestDto.class, User.class);
         Converter<String, String> converter = context -> context.getSource() == null
                 ? null
                 : BCrypt.with(LongPasswordStrategies.hashSha512(BCrypt.Version.VERSION_2A))
                 .hashToString(6, context.getSource().toCharArray());
 
         typeMap.addMappings(mapper ->
-                mapper.using(converter).map(UserRequestDto::getPassword, User::setPassword)
+                mapper.using(converter).map(UserRegistrationRequestDto::getPassword, User::setPassword)
         );
 
         return modelMapper;

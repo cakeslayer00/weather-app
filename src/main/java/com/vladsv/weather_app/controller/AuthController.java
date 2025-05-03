@@ -1,10 +1,13 @@
 package com.vladsv.weather_app.controller;
 
-import com.vladsv.weather_app.dto.UserRequestDto;
+import com.vladsv.weather_app.dto.UserAuthorizationRequestDto;
+import com.vladsv.weather_app.dto.UserRegistrationRequestDto;
 import com.vladsv.weather_app.service.AuthService;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -20,22 +23,32 @@ public class AuthController {
     }
 
     @GetMapping("/reg")
-    public String registration() {
+    public String registration(@ModelAttribute("user") UserRegistrationRequestDto userDto) {
         return "sign-up";
     }
 
     @PostMapping
-    public String authorization(@ModelAttribute UserRequestDto userRequestDto,
+    public String authorization(@Valid @ModelAttribute UserAuthorizationRequestDto userDto,
+                                BindingResult bindingResult,
                                 HttpServletResponse response) {
-        authService.authorize(userRequestDto, response);
+        if (bindingResult.hasErrors()) {
+            return "sign-in";
+        }
+
+        authService.authorize(userDto, response);
 
         return "redirect:/";
     }
 
     @PostMapping(value = "/reg")
-    public String registration(@ModelAttribute UserRequestDto userRequestDto,
+    public String registration(@Valid @ModelAttribute("user") UserRegistrationRequestDto userDto,
+                               BindingResult bindingResult,
                                HttpServletResponse response) {
-        authService.register(userRequestDto, response);
+        if (bindingResult.hasErrors()) {
+            return "sign-up";
+        }
+
+        authService.register(userDto, response);
 
         return "redirect:/";
     }

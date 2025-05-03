@@ -3,7 +3,8 @@ package com.vladsv.weather_app.service;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.vladsv.weather_app.dao.SessionDao;
 import com.vladsv.weather_app.dao.UserDao;
-import com.vladsv.weather_app.dto.UserRequestDto;
+import com.vladsv.weather_app.dto.UserAuthorizationRequestDto;
+import com.vladsv.weather_app.dto.UserRegistrationRequestDto;
 import com.vladsv.weather_app.entity.Session;
 import com.vladsv.weather_app.entity.User;
 import com.vladsv.weather_app.exception.InvalidCredentialsException;
@@ -38,11 +39,11 @@ public class AuthService {
 
     private final ModelMapper modelMapper;
 
-    public void authorize(UserRequestDto userRequestDto, HttpServletResponse response) {
-        User user = userDao.findByUsername(userRequestDto.getUsername())
+    public void authorize(UserAuthorizationRequestDto userDto, HttpServletResponse response) {
+        User user = userDao.findByUsername(userDto.getUsername())
                 .orElseThrow(() -> new InvalidCredentialsException(INVALID_USERNAME));
 
-        if (!isPasswordsIdentical(userRequestDto, user)) {
+        if (!isPasswordsIdentical(userDto, user)) {
             throw new InvalidPasswordCredentials(WRONG_CREDENTIALS);
         }
         Session session = getBuiltSession(user);
@@ -53,13 +54,13 @@ public class AuthService {
         log.info("Authorization complete for user: {}", user);
     }
 
-    public void register(UserRequestDto userRequestDto, HttpServletResponse response) {
+    public void register(UserRegistrationRequestDto userDto, HttpServletResponse response) {
         try {
-            if (!userRequestDto.getPassword().equals(userRequestDto.getConfirmPassword())) {
+            if (!userDto.getPassword().equals(userDto.getConfirmPassword())) {
                  throw new NonMatchingPasswordsException("Password do not match");
             }
 
-            User user = modelMapper.map(userRequestDto, User.class);
+            User user = modelMapper.map(userDto, User.class);
             Session session = getBuiltSession(user);
 
             userDao.persist(user);
@@ -98,8 +99,8 @@ public class AuthService {
                 .build();
     }
 
-    private boolean isPasswordsIdentical(UserRequestDto userRequestDto, User user) {
-        return BCrypt.verifyer().verify(userRequestDto.getPassword().toCharArray(), user.getPassword().toCharArray()).verified;
+    private boolean isPasswordsIdentical(UserAuthorizationRequestDto userDto, User user) {
+        return BCrypt.verifyer().verify(userDto.getPassword().toCharArray(), user.getPassword().toCharArray()).verified;
     }
 
     private void applyCookies(HttpServletResponse response, Session session) {

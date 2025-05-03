@@ -1,6 +1,7 @@
 import com.vladsv.weather_app.dao.SessionDao;
 import com.vladsv.weather_app.dao.UserDao;
-import com.vladsv.weather_app.dto.UserRequestDto;
+import com.vladsv.weather_app.dto.UserAuthorizationRequestDto;
+import com.vladsv.weather_app.dto.UserRegistrationRequestDto;
 import com.vladsv.weather_app.entity.Session;
 import com.vladsv.weather_app.entity.User;
 import com.vladsv.weather_app.exception.sql.EntityPersistenceException;
@@ -38,7 +39,7 @@ public class AuthorizationServiceAndPersistenceLayerInteractionTest {
 
     @Test
     public void givenAuthService_whenRegistrationMethodInvoked_thenNewUserAdded() {
-        UserRequestDto dto = new UserRequestDto("testusername", "1234asdf", "1234asdf");
+        UserRegistrationRequestDto dto = new UserRegistrationRequestDto("testusername", "1234asdf", "1234asdf");
 
         assertDoesNotThrow(() -> authService.register(dto, response));
         User user = userDao.findByUsername(dto.getUsername()).get();
@@ -50,7 +51,7 @@ public class AuthorizationServiceAndPersistenceLayerInteractionTest {
     @Test
     @AfterTestMethod
     public void givenExistingUser_whenRegisteringNewUserWithSameName_thenExceptionThrown() {
-        UserRequestDto dto = new UserRequestDto("testusername", "1234asdf", "1234asdf");
+        UserRegistrationRequestDto dto = new UserRegistrationRequestDto("testusername", "1234asdf", "1234asdf");
 
         assertThrows(EntityPersistenceException.class,
                 () -> authService.register(dto, response));
@@ -59,7 +60,7 @@ public class AuthorizationServiceAndPersistenceLayerInteractionTest {
     @Test
     @AfterTestMethod
     public void givenExistingUser_whenAuthorizationIfSessionExpired_thenSessionExpiryTimeUpdated() {
-        UserRequestDto dto = new UserRequestDto("testusername", "1234asdf", "1234asdf");
+        UserAuthorizationRequestDto dto = new UserAuthorizationRequestDto("testusername", "1234asdf");
 
         User user = userDao.findByUsername(dto.getUsername()).get();
         Session before = sessionDao.findSessionByUser(user).get();

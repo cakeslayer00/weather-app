@@ -29,17 +29,15 @@
         <div class="col-12 col-lg-4 col-md-6 col-sm-12">
             <form th:action="@{/auth}" th:method="post" class="mt-4">
                 <div class="mb-3">
-                    <div th:if="${error == null}">
-                        <label for="username" class="form-label">Username</label>
-                        <input type="text" class="form-control" id="username" name="username" required value=""/>
-                    </div>
-                    <div th:unless="${error == null}" class="has-validation">
-                        <label for="username-error" class="form-label">Username</label>
-                        <input type="text" class="form-control is-invalid" id="username-error" name="username" required value=""/>
-                        <div class="invalid-feedback">
-                            <label th:text="${error}"></label>
-                        </div>
-                    </div>
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text"
+                           class="form-control"
+                           th:classappend="${error != null} ? ' is-invalid' : ''"
+                           id="username"
+                           name="username"
+                           required
+                           value=""/>
+                    <div class="invalid-feedback" th:if="${error != null}" th:text="${error}"></div>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>

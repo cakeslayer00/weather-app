@@ -1,5 +1,6 @@
 package com.vladsv.weather_app.handler;
 
+import com.vladsv.weather_app.dto.UserRegistrationRequestDto;
 import com.vladsv.weather_app.exception.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -44,7 +45,8 @@ public class GlobalControllerExceptionHandler {
         ModelAndView mav = new ModelAndView("sign-up");
 
         log.error("Error occurred during authorization: ", e);
-        return mav.addObject("error", e.getMessage());
+        return mav.addObject("bannerError", e.getMessage())
+                .addObject("user", new UserRegistrationRequestDto());
     }
 
     @ExceptionHandler(NonMatchingPasswordsException.class)
